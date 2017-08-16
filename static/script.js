@@ -26,7 +26,6 @@ $(document).ready(function(){
   //translate signature into 'base-64' text and  set it as value of hidden <input name="signature">
   function grabCanvasImage(){
     if(!emptyCanvas){
-      console.log(canvas.toDataURL());
       $canvasInput.val(canvas.toDataURL());
     }
   }

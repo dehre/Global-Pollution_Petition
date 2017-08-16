@@ -24,8 +24,14 @@ app.get('/petition',function(req,res){
   });
 });
 app.post('/petition',function(req,res){
-  console.log('Body of inputs is',req.body);
-  res.redirect('/petition')
+  if(!req.body.firstName && !req.body.lastName && !req.body.signature){
+    console.log('All fields filled!');
+  } else {
+    //if not all fields were filled, just render the petition page again with an error message
+    res.render('petition',{
+      showError: true
+    });
+  }
 });
 
 //start listening on port 8080
