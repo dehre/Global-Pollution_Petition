@@ -24,7 +24,7 @@ app.get('/petition',function(req,res){
   });
 });
 app.post('/petition',function(req,res){
-  if(!req.body.firstName && !req.body.lastName && !req.body.signature){
+  if(req.body.firstName && req.body.lastName && req.body.signature){
     console.log('All fields filled!');
   } else {
     //if not all fields were filled, just render the petition page again with an error message
