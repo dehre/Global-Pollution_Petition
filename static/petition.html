@@ -21,16 +21,19 @@
       </div>
       <div class="form-fields text-center">
         <div class="name-fields">
-          <div class="name-field">
+          <div class="name-field mar-hor-sm">
             <input type="text" name="firstName">
-            <h6>First Name</h6>
+            <h6 class="mar-xs">First Name</h6>
           </div>
           <div class="name-field">
             <input type="text" name="lastName">
-            <h6>Last Name</h6>
+            <h6 class="mar-xs">Last Name</h6>
           </div>
         </div>
-        <canvas id="signature-canvas" width="600" height="120"></canvas>
+        <div class="signature-field mar-top-xs mar-bot-sm">
+          <canvas id="signature-canvas" width="600" height="120"></canvas>
+          <h6 class="mar-xs">Last Name</h6>
+        </div>
         <input type="hidden" name="signature">
         <button class="block-center green-btn" type="submit">SUBMIT</button>
       </div>
