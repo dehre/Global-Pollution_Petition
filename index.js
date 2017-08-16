@@ -6,7 +6,7 @@ const hb = require('express-handlebars');
 const app = express();
 
 //set up templating engine
-app.engine('handlebars', hb());
+app.engine('handlebars', hb({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //MIDDLEWARES
