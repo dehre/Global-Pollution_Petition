@@ -27,24 +27,6 @@
   margin-top: 1em;
   margin-bottom: 1em;
 }
-.mar-top-big {
-  margin-top: 4em;
-}
-.mar-bot-big {
-  margin-bottom: 4em;
-}
-.mar-top-sm {
-  margin-top: 2em;
-}
-.mar-top-sm {
-  margin-bottom: 2em;
-}
-.mar-top-xs {
-  margin-top: 1em;
-}
-.mar-top-xs {
-  margin-bottom: 1em;
-}
 .mar-hor-big {
   margin-left: 4em;
   margin-right: 4em;
@@ -56,6 +38,24 @@
 .mar-hor-xs {
   margin-left: 1em;
   margin-right: 1em;
+}
+.mar-top-big {
+  margin-top: 4em;
+}
+.mar-bot-big {
+  margin-bottom: 4em;
+}
+.mar-top-sm {
+  margin-top: 2em;
+}
+.mar-bot-sm {
+  margin-bottom: 2em;
+}
+.mar-top-xs {
+  margin-top: 1em;
+}
+.mar-bot-xs {
+  margin-bottom: 1em;
 }
 .rounded-shadow {
   box-shadow: 0px 0px 30px 10px rgba(69,48,69,0.5);
@@ -90,6 +90,10 @@ body {
 }
 .description {
   font-size: 1.3em;
+}
+.error-submit {
+  color: red;
+  font-size: 1.6em;
 }
 .form-fields {
   font-size: 1.8em;

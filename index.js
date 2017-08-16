@@ -19,7 +19,9 @@ app.use('/static',express.static(__dirname + '/static'));
 
 //CODE ROUTING
 app.get('/petition',function(req,res){
-  res.render('petition');
+  res.render('petition',{
+    showError: false
+  });
 });
 app.post('/petition',function(req,res){
   console.log('Body of inputs is',req.body);
