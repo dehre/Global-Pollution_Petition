@@ -9,7 +9,7 @@ const app = express();
 //get back data for logging into database
 const secret = require('./dbSecret.json');
 //setup database
-const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/signatures`);
+const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/Loris`);
 
 //set up templating engine
 app.engine('handlebars', hb({defaultLayout: 'main'}));
@@ -30,8 +30,18 @@ app.get('/petition',function(req,res){
   });
 });
 app.post('/petition',function(req,res){
-  if(req.body.firstName && req.body.lastName && req.body.signature){
+  const {firstName,lastName,signature} = req.body;
+  if(firstName && lastName && signature){
     console.log('All fields filled!');
+    //set up query to put data into DB
+    const query = 'INSERT INTO signatures (first,last,signature) VALUES ($1,$2,$3)';
+    db.query(query,[firstName,lastName,signature])
+    .then(function(results){
+      console.log('Data correctly inserted to DB');
+    })
+    .catch(function(err){
+      console.log('Error happened inserting data to DB',err);
+    });
   } else {
     //if not all fields were filled, just render the petition page again with an error message
     res.render('petition',{
