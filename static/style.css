@@ -1,0 +1,65 @@
+/*COMMON CLASSES*/
+.text-center {
+  text-align: center;
+}
+.block-center {
+  display: block;
+  margin: 0 auto;
+}
+.mar-top-big {
+  margin-top: 4em;
+}
+.mar-bot-big {
+  margin-bottom: 4em;
+}
+.mar-top-sm {
+  margin-top: 2em;
+}
+.mar-top-sm {
+  margin-bottom: 2em;
+}
+.rounded-shadow {
+  box-shadow: 0px 0px 30px 10px rgba(69,48,69,0.5);
+  border-radius: 10px;
+}
+.green-btn {
+  padding: .3em .8em;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  font-size: 1.8em;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+/*SPECIFIC CLASSES*/
+body {
+  background-color: #FAFBFC;
+}
+.container {
+  width: 80%;
+  margin: 2em auto;
+  font-family: 'Josefin Sans', sans-serif;
+}
+.title {
+  font-size: 2em;
+}
+#pollution-draw {
+  width: 70%;
+}
+.description {
+  font-size: 1.3em;
+}
+.name-fields {
+  display: flex;
+  justify-content: center;
+  font-size: 1.8em;
+}
+.name-field {
+  margin: 0 1em;
+}
+.name-field h6 {
+  margin: .8em;
+}
