@@ -15,10 +15,11 @@ app.use(require('body-parser').urlencoded({
 }));
 app.use(require('cookie-parser')());
 //serve static files
-app.use(express.static(__dirname + '/static'));
+app.use('/static',express.static(__dirname + '/static'));
+
 //CODE ROUTING
 app.get('/petition',function(req,res){
-  res.send('Petition page!')
+  res.render('petition');
 });
 app.post('/petition',function(req,res){
   console.log('Body of inputs is',req.body);
