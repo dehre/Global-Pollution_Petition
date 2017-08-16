@@ -1,9 +1,15 @@
 //require modules
 const express = require('express');
+const spicedPg = require('spiced-pg');
 const hb = require('express-handlebars');
 
 //create express application
 const app = express();
+
+//get back data for logging into database
+const secret = require('./dbSecret.json');
+//setup database
+const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/signatures`);
 
 //set up templating engine
 app.engine('handlebars', hb({defaultLayout: 'main'}));
