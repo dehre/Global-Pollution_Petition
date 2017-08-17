@@ -48,4 +48,10 @@ module.exports = function(app){
     });
   });
 
+  //catch all request for unexisting routes
+  app.get('*',function(req,res){
+    res.redirect('/petition');
+  });
+
+
 };
