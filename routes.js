@@ -1,5 +1,6 @@
 const dbMethods = require('./db/methods');
 const {publicize,privatize} = require('./middleware_helpers');
+
 //set all routes used inside express app
 module.exports = function(app){
 
@@ -11,9 +12,8 @@ module.exports = function(app){
 
   app.post('/petition',function(req,res){
     const {firstName,lastName,signature} = req.body;
-    //need all <input> fields to be filled
+    //if all <input> fields filled,save signed person to database
     if(firstName && lastName && signature){
-      //save signed person to database
       dbMethods.savePerson(firstName,lastName,signature)
       .then(function(result){
         //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
@@ -33,7 +33,7 @@ module.exports = function(app){
   });
 
   app.get('/signed',privatize,function(req,res){
-    //grab user's id from cookies, and use it to grab right row of data from DB
+    //take user's id from cookies and  grab his signature from DB
     dbMethods.getSignature(req.session.userId)
     .then(function(signature){
       //pass the signature I got back to 'signed' template
