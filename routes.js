@@ -16,8 +16,7 @@ module.exports = function(app){
       dbMethods.savePerson(firstName,lastName,signature)
       .then(function(result){
         //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
-        const id = result.rows.pop().id;
-        req.session.userId = id;
+        req.session.userId = result.rows.pop().id;
         //redirect user away
         res.redirect('/signed');
       })
@@ -33,6 +32,10 @@ module.exports = function(app){
   });
 
   app.get('/signed',function(req,res){
+    dbMethods.getSignature(id)
+    .then(signature){
+      console.log('Signature is: -->',signature);
+    }
     res.render('signed');
   });
 
