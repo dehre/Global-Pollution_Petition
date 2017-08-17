@@ -14,9 +14,13 @@ module.exports = function(app){
     if(firstName && lastName && signature){
       //save signed person to database
       dbMethods.savePerson(firstName,lastName,signature)
-      .then(function(){
+      .then(function(result){
+        //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
+        const id = result.rows.pop().id;
+        req.session.userId = id;
         //set a cookie to remember signed-in user
-        res.cookie('signed','true');
+        // NOT NEEDED?
+        // res.cookie('signed','true');
         //redirect user away
         res.redirect('/signed');
       })
