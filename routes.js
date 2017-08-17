@@ -18,9 +18,6 @@ module.exports = function(app){
         //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
         const id = result.rows.pop().id;
         req.session.userId = id;
-        //set a cookie to remember signed-in user
-        // NOT NEEDED?
-        // res.cookie('signed','true');
         //redirect user away
         res.redirect('/signed');
       })
