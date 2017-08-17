@@ -1,5 +1,5 @@
 const dbMethods = require('./db/methods');
-const {publicize,privatize} = require('./route_helpers');
+const {publicize,privatize} = require('./middleware_helpers');
 //set all routes used inside express app
 module.exports = function(app){
 
