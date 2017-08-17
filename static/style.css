@@ -1,3 +1,8 @@
+/*OVERALL STYLES*/
+a {
+  text-decoration: none;
+  color: #000080;
+}
 /*COMMON CLASSES*/
 .text-center {
   text-align: center;
@@ -5,6 +10,9 @@
 .block-center {
   display: block;
   margin: 0 auto;
+}
+.mar-xl {
+  margin: 8em;
 }
 .mar-lg {
   margin: 4em;
@@ -17,6 +25,13 @@
 }
 .mar-xs {
   margin: .5em;
+}
+.mar-0 {
+  margin: 0;
+}
+.mar-vert-xl {
+  margin-top: 8em;
+  margin-bottom: 8em;
 }
 .mar-vert-lg {
   margin-top: 4em;
@@ -34,6 +49,10 @@
   margin-top: .5em;
   margin-bottom: .5em;
 }
+.mar-hor-xl {
+  margin-left: 8em;
+  margin-right: 8em;
+}
 .mar-hor-lg {
   margin-left: 4em;
   margin-right: 4em;
@@ -50,6 +69,9 @@
   margin-left: .5em;
   margin-right: .5em;
 }
+.mar-top-xl {
+  margin-top: 8em;
+}
 .mar-top-lg {
   margin-top: 4em;
 }
@@ -61,6 +83,9 @@
 }
 .mar-top-xs {
   margin-top: .5em;
+}
+.mar-bot-xl {
+  margin-bottom: 4em;
 }
 .mar-bot-lg {
   margin-bottom: 4em;
@@ -97,6 +122,9 @@
 }
 .box-100 {
   width: 100%;
+}
+.font-10 {
+  font-size: 1em;
 }
 .font-13 {
   font-size: 1.3em;
@@ -139,7 +167,7 @@ body {
   font-size: .8em;
   padding: .3em .6em;
 }
-.sign {
+.signature {
   background-color: white;
   border: 2px dotted grey;
 }
@@ -158,18 +186,18 @@ body {
   display: flex;
   align-items: center;
 }
-.petition-sm-img {
-  width: 40%;
+.signed-petition-img {
+  width: 45%;
 }
-.petition-signature {
-  width: 60%;
+.signed-petition-sign {
+  width: 55%;
 }
 
 @media screen and (min-width: 768px){
-  .petition-sm-img {
+  .signed-petition-img {
     width: 25%;
   }
-  .petition-signature {
+  .signed-petition-sign {
     width: 75%;
   }
 }
