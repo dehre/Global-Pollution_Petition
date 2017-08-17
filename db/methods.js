@@ -1,10 +1,10 @@
 const spicedPg = require('spiced-pg');
 
 //get back data for logging into database
-const secret = require('./dbSecret.json');
+const {dbUser,dbPassword} = require('../secret.json');
 
 //setup database
-const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/Loris`);
+const db = spicedPg(`postgres:${dbUser}:${dbPassword}@localhost:5432/Loris`);
 
 //save new signature to DB
 module.exports.savePerson = function(firstName,lastName,signature){
