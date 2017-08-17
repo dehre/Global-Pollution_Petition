@@ -17,14 +17,4 @@ module.exports = function(app){
   //serve static files
   app.use('/static',express.static(__dirname + '/static'));
 
-  //TO MODIFY --> KEEP UNSIGNED USERS AWAY FROM SIGNED PAGES
-  //if user signed already, redirect to '/signed'
-  // app.use(function(req,res,next){
-  //   if(req.url !== '/signed' && req.cookies.signed){
-  //     res.redirect('/signed')
-  //   } else {
-  //     next();
-  //   };
-  // });
-
 };

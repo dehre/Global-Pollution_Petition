@@ -1,22 +1,5 @@
 const dbMethods = require('./db/methods');
-
-// keep unsigned users away from private pages
-function privatize(req,res,next){
-  if(!req.session.userId){
-    res.redirect('/petition');
-  } else {
-    next();
-  }
-}
-//keep signed users away from public pages
-function publicize(req,res,next){
-  if(req.session.userId){
-    res.redirect('/signed');
-  } else {
-    next();
-  }
-}
-
+const {publicize,privatize} = require('./route_helpers');
 //set all routes used inside express app
 module.exports = function(app){
 
