@@ -8,7 +8,13 @@ const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/L
 
 //save new signature to DB
 module.exports.savePerson = function(firstName,lastName,signature){
-    //set up query to put data into DB
-    const query = 'INSERT INTO signatures (first,last,signature) VALUES ($1,$2,$3)';
-    return db.query(query,[firstName,lastName,signature]);
+  //set up query to put data into DB
+  const query = 'INSERT INTO signatures (first,last,signature) VALUES ($1,$2,$3)';
+  return db.query(query,[firstName,lastName,signature]);
+}
+
+module.exports.retrievePeople = function(){
+  //set up query to put data into DB
+  const query = 'SELECT first,last FROM signatures';
+  return db.query(query);
 }

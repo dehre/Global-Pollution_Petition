@@ -14,7 +14,7 @@ module.exports = function(app){
     if(firstName && lastName && signature){
       //save signed person to database
       dbMethods.savePerson(firstName,lastName,signature)
-      .then(function(results){
+      .then(function(){
         //set a cookie to remember signed-in user
         res.cookie('signed','true');
         //redirect user away
@@ -36,7 +36,16 @@ module.exports = function(app){
   });
 
   app.get('/signers',function(req,res){
-    res.render('signers');
+    //retrieve signed people's name from database and pass data to template
+    dbMethods.retrievePeople()
+    .then(function(results){
+      res.render('signers',{
+        signers: results.rows
+      });
+    })
+    .catch(function(err){
+      res.send('Error happened retrieving data from DB');
+    });
   });
 
 };
