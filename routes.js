@@ -1,8 +1,26 @@
 const dbMethods = require('./db/methods');
+
+// keep unsigned users away from private pages
+function privatize(req,res,next){
+  if(!req.session.userId){
+    res.redirect('/petition');
+  } else {
+    next();
+  }
+}
+//keep signed users away from public pages
+function publicize(req,res,next){
+  if(req.session.userId){
+    res.redirect('/signed');
+  } else {
+    next();
+  }
+}
+
 //set all routes used inside express app
 module.exports = function(app){
 
-  app.get('/petition',function(req,res){
+  app.get('/petition',publicize,function(req,res){
     res.render('petition',{
       showError: false
     });
@@ -31,7 +49,7 @@ module.exports = function(app){
     }
   });
 
-  app.get('/signed',function(req,res){
+  app.get('/signed',privatize,function(req,res){
     //grab user's id from cookies, and use it to grab right row of data from DB
     dbMethods.getSignature(req.session.userId)
     .then(function(signature){

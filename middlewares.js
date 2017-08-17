@@ -8,8 +8,6 @@ module.exports = function(app){
       extended: false
   }));
 
-  app.use(require('cookie-parser')());
-
   //use 'cookie-session' to provide data integrity for cookies
   app.use(require('cookie-session')({
     secret: sessionSecret,
