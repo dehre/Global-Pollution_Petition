@@ -32,11 +32,17 @@ module.exports = function(app){
   });
 
   app.get('/signed',function(req,res){
-    dbMethods.getSignature(id)
-    .then(signature){
-      console.log('Signature is: -->',signature);
-    }
-    res.render('signed');
+    //grab user's id from cookies, and use it to grab right row of data from DB
+    dbMethods.getSignature(req.session.userId)
+    .then(function(signature){
+      //pass the signature I got back to 'signed' template
+      res.render('signed',{
+        signature:signature.rows.pop().signature
+      });
+    })
+    .catch(function(err){
+      res.send('Error happened retrieving data from DB');
+    })
   });
 
   app.get('/signers',function(req,res){

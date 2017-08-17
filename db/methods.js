@@ -18,3 +18,9 @@ module.exports.retrievePeople = function(){
   const query = 'SELECT first,last FROM signatures';
   return db.query(query);
 }
+
+module.exports.getSignature = function(id){
+  //set up query to retrieve specific signature from DB
+  const query = `SELECT signature FROM signatures WHERE id = $1`;
+  return db.query(query,[id]);
+}
