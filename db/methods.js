@@ -1,7 +1,7 @@
 const spicedPg = require('spiced-pg');
 
 //get back data for logging into database
-const secret = require('../dbSecret.json');
+const secret = require('./dbSecret.json');
 
 //setup database
 const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/Loris`);

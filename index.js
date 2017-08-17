@@ -1,5 +1,6 @@
 const express = require('express');
 const hb = require('express-handlebars');
+const middlewares = require('./middlewares');
 const dbMethods = require('./db/methods');
 
 //create express application
@@ -9,23 +10,10 @@ const app = express();
 app.engine('handlebars', hb({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//MIDDLEWARES
-app.use(require('body-parser').urlencoded({
-    extended: false
-}));
-app.use(require('cookie-parser')());
-//serve static files
-app.use('/static',express.static(__dirname + '/static'));
-//if user signed already, redirect to '/signed'
-app.use(function(req,res,next){
-  if(req.url !== '/signed' && req.cookies.signed){
-    res.redirect('/signed')
-  } else {
-    next();
-  };
-});
+//set up middlewares
+middlewares(app);
 
-//CODE ROUTING
+// // ROUTING
 app.get('/petition',function(req,res){
   res.render('petition',{
     showError: false
