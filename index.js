@@ -1,15 +1,9 @@
-//require modules
 const express = require('express');
-const spicedPg = require('spiced-pg');
 const hb = require('express-handlebars');
+const dbMethods = require('./db/methods');
 
 //create express application
 const app = express();
-
-//get back data for logging into database
-const secret = require('./dbSecret.json');
-//setup database
-const db = spicedPg(`postgres:${secret.user}:${secret.password}@localhost:5432/Loris`);
 
 //set up templating engine
 app.engine('handlebars', hb({defaultLayout: 'main'}));
@@ -42,9 +36,8 @@ app.post('/petition',function(req,res){
   const {firstName,lastName,signature} = req.body;
   //need all <input> fields to be filled
   if(firstName && lastName && signature){
-    //set up query to put data into DB
-    const query = 'INSERT INTO signatures (first,last,signature) VALUES ($1,$2,$3)';
-    db.query(query,[firstName,lastName,signature])
+    //save signed person to database
+    dbMethods.savePerson(firstName,lastName,signature)
     .then(function(results){
       //set a cookie to remember signed-in user
       res.cookie('signed','true');
