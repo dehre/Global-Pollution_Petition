@@ -22,6 +22,14 @@ app.use(require('body-parser').urlencoded({
 app.use(require('cookie-parser')());
 //serve static files
 app.use('/static',express.static(__dirname + '/static'));
+//if user signed already, redirect to '/signed'
+app.use(function(req,res,next){
+  if(req.url !== '/signed' && req.cookies.signed){
+    res.redirect('/signed')
+  } else {
+    next();
+  };
+});
 
 //CODE ROUTING
 app.get('/petition',function(req,res){
@@ -29,18 +37,22 @@ app.get('/petition',function(req,res){
     showError: false
   });
 });
+
 app.post('/petition',function(req,res){
   const {firstName,lastName,signature} = req.body;
+  //need all <input> fields to be filled
   if(firstName && lastName && signature){
-    console.log('All fields filled!');
     //set up query to put data into DB
     const query = 'INSERT INTO signatures (first,last,signature) VALUES ($1,$2,$3)';
     db.query(query,[firstName,lastName,signature])
     .then(function(results){
-      console.log('Data correctly inserted to DB');
+      //set a cookie to remember signed-in user
+      res.cookie('signed','true');
+      //redirect user away
+      res.redirect('/signed');
     })
     .catch(function(err){
-      console.log('Error happened inserting data to DB',err);
+      res.send('Error happened saving data to DB');
     });
   } else {
     //if not all fields were filled, just render the petition page again with an error message
@@ -48,6 +60,10 @@ app.post('/petition',function(req,res){
       showError: true
     });
   }
+});
+
+app.get('/signed',function(req,res){
+  res.send('Signed page here!')
 });
 
 //start listening on port 8080
