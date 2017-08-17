@@ -32,7 +32,7 @@ module.exports = function(app){
   });
 
   app.get('/signed',function(req,res){
-    res.send('Signed page here!')
+    res.render('signed');
   });
 
 };
