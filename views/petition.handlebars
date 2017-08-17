@@ -1,9 +1,11 @@
-<div class="title mar-vert-sm text-center font-20">
+<div class="title mar-vert-md text-center font-16">
   <h1>Save our Ocean, save yourself. End plastic pollution now!</h1>
 </div>
 
 <div class="petition-big-img text-center">
-  <img class="rounded shadow box-70" src="/static/images/pollution-draw.jpg" alt="descriptive draw representing global polluting situation">
+  <a href="/static/images/pollution-draw.jpg">
+    <img class="rounded shadow box-80" src="/static/images/pollution-draw.jpg" alt="descriptive draw representing global polluting situation">
+  </a>
 </div>
 
 <div class="description mar-top-lg mar-bot-lg font-13">
@@ -19,19 +21,19 @@
 
 <form class="form-fields text-center font-16" action='/petition' method='post'>
   <div class="name-fields">
-    <div class="mar-hor-sm">
+    <div class="mar-xs">
       <input type="text" name="firstName">
       <h6 class="mar-xs">First Name</h6>
     </div>
-    <div class="mar-hor-sm">
+    <div class="mar-xs">
       <input type="text" name="lastName">
       <h6 class="mar-xs">Last Name</h6>
     </div>
   </div>
-  <div class="mar-top-xs mar-bot-sm">
+  <div class="mar-vert-xs">
     <canvas class="signature-canvas" width="600" height="120"></canvas>
     <h6 class="mar-xs">Signature</h6>
   </div>
   <input type="hidden" name="signature">
-  <button class="block-center green-btn" type="submit">SUBMIT</button>
+  <button class="block-center mar-vert-md green-btn" type="submit">SUBMIT</button>
 </form>
