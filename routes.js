@@ -35,4 +35,8 @@ module.exports = function(app){
     res.render('signed');
   });
 
+  app.get('/signers',function(req,res){
+    res.render('signers');
+  });
+
 };
