@@ -1,7 +1,7 @@
 const express = require('express');
 const hb = require('express-handlebars');
-const middlewares = require('./middlewares');
-const routes = require('./routes');
+const middlewares = require('./express/middlewares');
+const routes = require('./express/routes');
 
 //create express application
 const app = express();
@@ -12,6 +12,9 @@ app.set('view engine', 'handlebars');
 
 //set up middlewares
 middlewares(app);
+
+//serve static files
+app.use('/static',express.static(__dirname + '/static'));
 
 // set up routes
 routes(app);
