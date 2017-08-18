@@ -19,6 +19,24 @@ module.exports.createUser = function(firstName,lastName,email,password){
   });
 }
 
+
+
+//retrieve existing user from 'users' database
+module.exports.getUser = function(email,password){
+  //search by 'email' into 'users' database
+
+  //get saved password from database
+
+  //compare saved password with new one provided from user
+
+  //return true if both passwords match
+
+  //get back from overall promise 'id' of currently saved user
+  
+}
+
+
+
 //save new signature to DB
 module.exports.savePerson = function(firstName,lastName,signature){
   //set up query to put data into DB
