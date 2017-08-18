@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  // //CANVAS
   //check if canvas in current webpage
   const canvas = document.getElementById('signature-canvas');
   if(canvas){
@@ -53,5 +54,25 @@ $(document).ready(function(){
     });
   } //end 'if(canvas)'
 
+
+  // //PROGRESS-BAR
+  //check if progress-bar in current webpage
+  const $bar = $("#progress-bar");
+  if($bar){
+    function move() {
+      let width = 0;
+      const id = setInterval(frame, 20);
+      function frame() {
+        if (width >= 80) {
+          clearInterval(id);
+        } else {
+          width++;
+          $bar.css("width",`${width}%`);
+          $bar.html(`${width}%`);
+        }
+      }
+    }
+    move();
+  }
 
 }); //end $(document).ready()
