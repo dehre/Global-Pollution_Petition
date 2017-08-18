@@ -16,9 +16,15 @@ module.exports = function(app){
     }
     //if all <input> fields filled,save new user to database
     dbMethods.createUser(firstName,lastName,email,password)
-    .then(function(id){
-      console.log('User saved! id retrieved is',id);
-      res.send('saved!')
+    .then(function(result){
+      //grab 'id' of new registered user, as well as its name, and set them as cookie on user's browser
+      req.session.user = {
+        user_id: result.rows.pop().id,
+        first: firstName,
+        last: lastName
+      }
+      //redirect user away
+      res.redirect('/petition');
     })
     .catch(function(err){
       res.send(`Error happened creating new user into DB.`);
@@ -59,7 +65,7 @@ module.exports = function(app){
       res.redirect('/signed');
     })
     .catch(function(err){
-      res.send(`Error happened saving data to DB. Error is:\n${err}`);
+      res.send(`Error happened saving data to DB.`);
     });
   });
 
@@ -73,7 +79,7 @@ module.exports = function(app){
       });
     })
     .catch(function(err){
-      res.send(`Error happened retrieving data from DB. Error is:\n${err}`);
+      res.send(`Error happened retrieving data from DB.`);
     })
   });
 
@@ -86,7 +92,7 @@ module.exports = function(app){
       });
     })
     .catch(function(err){
-      res.send(`Error happened retrieving data from DB. Error is:\n${err}`);
+      res.send(`Error happened retrieving data from DB.`);
     });
   });
 
