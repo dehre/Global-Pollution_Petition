@@ -203,6 +203,10 @@ body {
 .signers-list li {
   flex: 1 100%;
 }
+#progress {
+  border: 1px solid grey;
+  border-radius: 10px;
+}
 #progress-bar {
   width: 0%;
   height: 50px;
@@ -210,7 +214,12 @@ body {
   color: white;
   text-align: center;
   line-height: 50px;
+  font-weight: bold;
   border-radius: 10px;
+}
+.progress-goal {
+  text-align: right;
+  font-style: italic;
 }
 @media screen and (min-width: 768px){
   .signed-petition-img {
