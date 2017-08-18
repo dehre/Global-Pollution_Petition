@@ -12,12 +12,17 @@ module.exports = function(app){
     const {firstName,lastName,email, password} = req.body;
     if(!(firstName && lastName && email && password)){
       //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
-      return res.render('register',{
-        showError: true
-      });
+      return res.render('register',{showError: true});
     }
-    //if all <input> fields filled,save new person to database
-    res.send('saved to database!');
+    //if all <input> fields filled,save new user to database
+    dbMethods.createUser(firstName,lastName,email,password)
+    .then(function(id){
+      console.log('User saved! id retrieved is',id);
+      res.send('saved!')
+    })
+    .catch(function(err){
+      res.send(`Error happened saving new user into DB. Error is:\n${err}`);
+    });
   });
 
   app.get('/login',function(req,res){
@@ -28,9 +33,7 @@ module.exports = function(app){
     const {email, password} = req.body;
     if(!(email && password)){
       //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
-      return res.render('login',{
-        showError: true
-      });
+      return res.render('login',{showError: true});
     }
     //if all <input> fields filled,retrieve person database
     res.send('retrieved from database!');
@@ -45,9 +48,7 @@ module.exports = function(app){
     const {firstName,lastName,signature} = req.body;
     if(!(firstName && lastName && signature)){
       //if not all fields were filled, just render the 'petition' template again with an error message, then exit the function
-      return res.render('petition',{
-        showError: true
-      });
+      return res.render('petition',{showError: true});
     }
     //if all <input> fields filled,save signed person to database
     dbMethods.savePerson(firstName,lastName,signature)
@@ -58,7 +59,7 @@ module.exports = function(app){
       res.redirect('/signed');
     })
     .catch(function(err){
-      res.send('Error happened saving data to DB');
+      res.send(`Error happened saving data to DB. Error is:\n${err}`);
     });
   });
 
@@ -72,7 +73,7 @@ module.exports = function(app){
       });
     })
     .catch(function(err){
-      res.send('Error happened retrieving data from DB');
+      res.send(`Error happened retrieving data from DB. Error is:\n${err}`);
     })
   });
 
@@ -85,7 +86,7 @@ module.exports = function(app){
       });
     })
     .catch(function(err){
-      res.send('Error happened retrieving data from DB');
+      res.send(`Error happened retrieving data from DB. Error is:\n${err}`);
     });
   });
 
