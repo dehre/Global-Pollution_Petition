@@ -39,23 +39,22 @@ module.exports = function(app){
   app.post('/petition',function(req,res){
     const {firstName,lastName,signature} = req.body;
     //if all <input> fields filled,save signed person to database
-    if(firstName && lastName && signature){
-      dbMethods.savePerson(firstName,lastName,signature)
-      .then(function(result){
-        //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
-        req.session.userId = result.rows.pop().id;
-        //redirect user away
-        res.redirect('/signed');
-      })
-      .catch(function(err){
-        res.send('Error happened saving data to DB');
-      });
-    } else {
+    if(!(firstName && lastName && signature)){
       //if not all fields were filled, just render the petition page again with an error message
-      res.render('petition',{
+      return res.render('petition',{
         showError: true
       });
     }
+    dbMethods.savePerson(firstName,lastName,signature)
+    .then(function(result){
+      //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
+      req.session.userId = result.rows.pop().id;
+      //redirect user away
+      res.redirect('/signed');
+    })
+    .catch(function(err){
+      res.send('Error happened saving data to DB');
+    });
   });
 
   app.get('/signed',privatize,function(req,res){
