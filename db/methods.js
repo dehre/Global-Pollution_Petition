@@ -1,4 +1,6 @@
 const spicedPg = require('spiced-pg');
+//import useful functions for hashing passwords
+const {hashPassword,checkPassword} = require('./hashing');
 
 //get back data for logging into database
 const {dbUser,dbPassword} = require('../secret.json');
@@ -8,6 +10,8 @@ const db = spicedPg(`postgres:${dbUser}:${dbPassword}@localhost:5432/Loris`);
 
 //create new user inside 'users' database
 module.exports.createUser = function(firstName,lastName,email,password){
+  //hash user's password before putting into database
+
   //set up query to put data into DB
   const query = 'INSERT INTO users (first,last,email,password) VALUES ($1,$2,$3,$4) RETURNING id';
   return db.query(query,[firstName,lastName,email,password]);
