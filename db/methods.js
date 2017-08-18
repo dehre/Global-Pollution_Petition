@@ -16,9 +16,6 @@ module.exports.createUser = function(firstName,lastName,email,password){
     //set up query to put data into DB
     const query = 'INSERT INTO users (first,last,email,password) VALUES ($1,$2,$3,$4) RETURNING id';
     return db.query(query,[firstName,lastName,email,hash]);
-  })
-  .catch(function(err){
-    return(`Error happened hashing password before saving into DB. Error is:\n${err}`);
   });
 }
 

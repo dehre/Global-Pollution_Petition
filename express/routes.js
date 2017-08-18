@@ -21,7 +21,7 @@ module.exports = function(app){
       res.send('saved!')
     })
     .catch(function(err){
-      res.send(`Error happened saving new user into DB. Error is:\n${err}`);
+      res.send(`Error happened creating new user into DB.`);
     });
   });
 
