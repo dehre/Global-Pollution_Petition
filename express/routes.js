@@ -4,6 +4,14 @@ const {publicize,privatize} = require('./middleware_helpers');
 //set all routes used inside express app
 module.exports = function(app){
 
+  app.get('/register',function(req,res){
+    res.render('register');
+  });
+
+  app.get('/login',function(req,res){
+    res.render('login');
+  });
+
   app.get('/petition',publicize,function(req,res){
     res.render('petition',{
       showError: false

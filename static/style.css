@@ -1,7 +1,10 @@
 /*OVERALL STYLES*/
+body {
+  box-sizing: border-box;
+}
 a {
   text-decoration: none;
-  color: #000080;
+  color: blue;
 }
 ul {
   list-style-type: none;
@@ -156,19 +159,19 @@ body {
   background-color: #FAFBFC;
 }
 .container {
-  width: 90%;
+  width: 95%;
   margin: 2em auto 4em;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 30px;
-}
-.name-fields {
-  display: flex;
-  justify-content: center;
 }
 .form-fields input {
   width: 80%;
   font-size: .8em;
   padding: .3em .6em;
+}
+.text-fields {
+  display: flex;
+  justify-content: center;
 }
 .signature {
   background-color: white;
@@ -234,13 +237,16 @@ body {
 }
 @media screen and (min-width: 1024px){
   .container {
-    width: 80%;
+    width: 85%;
     font-size: 25px;
   }
 }
 @media screen and (min-width: 1200px){
   .container {
-    width: 70%;
+    width: 75%;
     font-size: 18px;
+  }
+  .signers-list li {
+    flex: 1 50%;
   }
 }
