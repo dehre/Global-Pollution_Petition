@@ -44,7 +44,14 @@ module.exports = function(app){
       return res.render('login',{showError: true});
     }
     //if all <input> fields filled,retrieve person database
-    res.send('retrieved from database!');
+    dbMethods.getUser(email,password)
+    .then(function(result){
+      console.log('Promise resolved-->',result);
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.send(`Error happened retrieving existing user from DB`);
+    });
   });
 
 

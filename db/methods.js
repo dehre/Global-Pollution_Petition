@@ -22,17 +22,31 @@ module.exports.createUser = function(firstName,lastName,email,password){
 
 
 //retrieve existing user from 'users' database
-module.exports.getUser = function(email,password){
+module.exports.getUser = function(email,plainTextPassword){
   //search by 'email' into 'users' database
-
-  //get saved password from database
-
-  //compare saved password with new one provided from user
-
-  //return true if both passwords match
-
-  //get back from overall promise 'id' of currently saved user
-  
+  const query = 'SELECT id,first,last,email,password FROM users WHERE email = $1';
+  return db.query(query,[email])
+  .then(function(userData){
+    //create object containing useful user's data
+    return {
+      id:userData.rows[0].id,
+      first:userData.rows[0].first,
+      last:userData.rows[0].last,
+      email:userData.rows[0].email,
+      hashedPassword:userData.rows[0].password
+    }
+  })
+  .then(function(userObj){
+    //compare saved password with new one provided from user
+    return checkPassword(plainTextPassword,userObj.password)
+    .then(function(doesMatch){
+      //only if passwords match return from promise 'id','firstName','lastName' of currently searched user, otherwise throw an error
+      if(!doesMatch){
+        throw 'Passwords do not match!';
+      }
+      return userObj;
+    })
+  });
 }
 
 
