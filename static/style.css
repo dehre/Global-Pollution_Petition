@@ -3,6 +3,9 @@ a {
   text-decoration: none;
   color: #000080;
 }
+ul {
+  list-style-type: none;
+}
 /*COMMON CLASSES*/
 .text-center {
   text-align: center;
@@ -192,7 +195,14 @@ body {
 .signed-petition-sign {
   width: 55%;
 }
-
+.signers-list {
+  display: flex;
+  flex-wrap: wrap;
+  line-height: 2em;
+}
+.signers-list li {
+  flex: 1 100%;
+}
 @media screen and (min-width: 768px){
   .signed-petition-img {
     width: 25%;
