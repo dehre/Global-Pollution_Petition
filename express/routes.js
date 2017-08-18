@@ -12,6 +12,24 @@ module.exports = function(app){
     res.render('login');
   });
 
+  app.post('/register',function(req,res){
+    const {firstName,lastName,email, password} = req.body;
+    //if all <input> fields filled,save signed person to database
+    if(firstName && lastName && email && password){
+      //do stuff to db
+      res.render('petition');
+    } else {
+      //render error message
+      res.render('petition');
+    }
+  });
+
+  app.post('/login',function(req,res){
+    const {email, password} = req.body;
+    res.render('petition');
+  });
+
+
   app.get('/petition',publicize,function(req,res){
     res.render('petition',{
       showError: false
