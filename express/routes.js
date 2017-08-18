@@ -17,12 +17,8 @@ module.exports = function(app){
     //if all <input> fields filled,save new user to database
     dbMethods.createUser(firstName,lastName,email,password)
     .then(function(result){
-      //grab 'id' of new registered user, as well as its name, and set them as cookie on user's browser
-      req.session.user = {
-        user_id: result.rows.pop().id,
-        first: firstName,
-        last: lastName
-      }
+      //grab 'id','firstName','lastName' of new registered user, and set them as cookie on user's browser
+      req.session.user = result;
       //redirect user away
       res.redirect('/petition');
     })

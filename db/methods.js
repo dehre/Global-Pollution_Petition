@@ -14,8 +14,16 @@ module.exports.createUser = function(firstName,lastName,email,password){
   return hashPassword(password)
   .then(function(hash){
     //set up query to put data into DB
-    const query = 'INSERT INTO users (first,last,email,password) VALUES ($1,$2,$3,$4) RETURNING id';
+    const query = 'INSERT INTO users (first,last,email,password) VALUES ($1,$2,$3,$4) RETURNING id,first,last';
     return db.query(query,[firstName,lastName,email,hash]);
+  })
+  .then(function(userData){
+    //return from promise 'id','firstName','lastName' of newly registered user
+    return {
+      user_id:userData.rows[0].id,
+      first:userData.rows[0].first,
+      last:userData.rows[0].last,
+    }
   });
 }
 
