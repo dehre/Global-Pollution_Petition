@@ -46,11 +46,14 @@ module.exports = function(app){
     //if all <input> fields filled,retrieve person database
     dbMethods.getUser(email,password)
     .then(function(result){
-      console.log('Promise resolved-->',result);
+      //set 'id','firstName','lastName' of logged in user as cookies on user's browser
+      req.session.user = result;
+      //redirect user away
+      res.redirect('/petition');
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened retrieving existing user from DB`);
+      res.send(`Error happened grabbing existing user from DB`);
     });
   });
 

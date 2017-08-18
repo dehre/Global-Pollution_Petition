@@ -38,13 +38,17 @@ module.exports.getUser = function(email,plainTextPassword){
   })
   .then(function(userObj){
     //compare saved password with new one provided from user
-    return checkPassword(plainTextPassword,userObj.password)
+    return checkPassword(plainTextPassword,userObj.hashedPassword)
     .then(function(doesMatch){
-      //only if passwords match return from promise 'id','firstName','lastName' of currently searched user, otherwise throw an error
+      //if passwords match return from promise 'id','firstName','lastName' of currently searched user, otherwise throw an error
       if(!doesMatch){
         throw 'Passwords do not match!';
       }
-      return userObj;
+      return {
+        user_id: userObj.id,
+        first: userObj.first,
+        last: userObj.last
+      };
     })
   });
 }
