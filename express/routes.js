@@ -27,9 +27,11 @@ module.exports = function(app){
       res.redirect('/petition');
     })
     .catch(function(err){
-      res.send(`Error happened creating new user into DB.`);
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.send(`Error happened creating new user into DB`);
     });
   });
+
 
   app.get('/login',function(req,res){
     res.render('login');
@@ -65,9 +67,11 @@ module.exports = function(app){
       res.redirect('/signed');
     })
     .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       res.send(`Error happened saving data to DB.`);
     });
   });
+
 
   app.get('/signed',privatize,function(req,res){
     //take user's id from cookies and  grab his signature from DB
@@ -79,6 +83,7 @@ module.exports = function(app){
       });
     })
     .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       res.send(`Error happened retrieving data from DB.`);
     })
   });
@@ -92,6 +97,7 @@ module.exports = function(app){
       });
     })
     .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       res.send(`Error happened retrieving data from DB.`);
     });
   });
