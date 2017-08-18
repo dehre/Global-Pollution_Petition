@@ -13,11 +13,7 @@
   <p>But in days, our governments can stem this tide when they meet at a historic summit to outline their clean ocean commitments. Public pressure just got #2 polluter Indonesia to commit to a 70% reduction in plastic waste! Now we need to go after the other top polluters. If one million of us get behind a global call the Head of the UN Environment Programme will announce our petition from the summit podium and work with us to push countries to ban single-use plastics and let our oceans breathe again. Add your name.</p>
 </div>
 
-{{#if showError}}
-<div class="text-error text-center font-16 mar-bot-xs">
-  <h3>Hey, something went wrong. Please try again!</h3>
-</div>
-{{/if}}
+{{> _errorMessage}}
 
 <form class="form-fields text-center font-16" action='/petition' method='post'>
   <div class="text-fields">

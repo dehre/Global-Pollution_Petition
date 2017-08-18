@@ -8,43 +8,48 @@ module.exports = function(app){
     res.render('register');
   });
 
+  app.post('/register',function(req,res){
+    const {firstName,lastName,email, password} = req.body;
+    if(!(firstName && lastName && email && password)){
+      //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
+      return res.render('register',{
+        showError: true
+      });
+    }
+    //if all <input> fields filled,save new person to database
+    res.send('saved to database!');
+  });
+
   app.get('/login',function(req,res){
     res.render('login');
   });
 
-  app.post('/register',function(req,res){
-    const {firstName,lastName,email, password} = req.body;
-    //if all <input> fields filled,save signed person to database
-    if(firstName && lastName && email && password){
-      //do stuff to db
-      res.render('petition');
-    } else {
-      //render error message
-      res.render('petition');
-    }
-  });
-
   app.post('/login',function(req,res){
     const {email, password} = req.body;
-    res.render('petition');
+    if(!(email && password)){
+      //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
+      return res.render('login',{
+        showError: true
+      });
+    }
+    //if all <input> fields filled,retrieve person database
+    res.send('retrieved from database!');
   });
 
 
   app.get('/petition',publicize,function(req,res){
-    res.render('petition',{
-      showError: false
-    });
+    res.render('petition');
   });
 
   app.post('/petition',function(req,res){
     const {firstName,lastName,signature} = req.body;
-    //if all <input> fields filled,save signed person to database
     if(!(firstName && lastName && signature)){
-      //if not all fields were filled, just render the petition page again with an error message
+      //if not all fields were filled, just render the 'petition' template again with an error message, then exit the function
       return res.render('petition',{
         showError: true
       });
     }
+    //if all <input> fields filled,save signed person to database
     dbMethods.savePerson(firstName,lastName,signature)
     .then(function(result){
       //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
