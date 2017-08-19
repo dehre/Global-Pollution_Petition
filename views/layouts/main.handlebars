@@ -9,7 +9,14 @@
   </head>
   <body>
 
+    <!-- render navbar only if user is logged in -->
+    {{#if first}}
+      {{> _navbar}}
+    {{/if}}
+    
+    <div class="container mar-top-md mar-bot-lg">
       {{{body}}}
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
