@@ -90,11 +90,11 @@ module.exports = function(app){
 
   app.get('/signed',function(req,res){
     //take user's id from cookies and  grab his signature from DB
-    dbMethods.getSignature(req.session.userId)
+    dbMethods.getSignature(req.session.user.user_id)
     .then(function(signature){
       //pass the signature I got back to 'signed' template
       res.render('signed',{
-        signature:signature.rows.pop().signature
+        signature:signature.rows[0].signature
       });
     })
     .catch(function(err){
