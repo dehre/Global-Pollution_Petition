@@ -29,8 +29,7 @@ module.exports = function(app){
 
 
   app.get('/login',function(req,res){
-    //show error message only if '?error=<something>' query params are passed --> in case of bad login credentials
-    res.render('login',{showError:req.query.error});
+    res.render('login');
   });
 
   app.post('/login',function(req,res){
@@ -49,7 +48,7 @@ module.exports = function(app){
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       //redirect users to 'login' page with error message
-      res.redirect('/login?error=true');
+      res.render('login',{showError:true});
     });
   });
 
