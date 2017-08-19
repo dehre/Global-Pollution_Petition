@@ -68,9 +68,9 @@ module.exports = function(app){
       //if not all fields were filled, just render the 'petition' template again with an error message, then exit the function
       const {first,last} = req.session.user;
       return res.render('petition',{
-        showError: true,
         first: first,
-        last: last
+        last: last,
+        showError: true,
       });
     }
     //if all <input> fields filled,save signature to database
@@ -91,8 +91,13 @@ module.exports = function(app){
     //take user's id from cookies and  grab his signature from DB
     dbMethods.getSignature(req.session.user.user_id)
     .then(function(signature){
+      const {first,last} = req.session.user;
       //pass the signature I got back to 'signed' template
-      res.render('signed',{signature:signature});
+      res.render('signed',{
+        first: first,
+        last: last,
+        signature:signature
+      });
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
@@ -113,7 +118,10 @@ module.exports = function(app){
       })
     })
     .then(function(signersAndGoalObj){
+      const {first,last} = req.session.user;
       res.render('signers',{
+        first: first,
+        last: last,
         signers: signersAndGoalObj.signers,
         signersNumber: signersAndGoalObj.signers.length,
         goal: signersAndGoalObj.goal
