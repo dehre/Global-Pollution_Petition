@@ -27,8 +27,6 @@ module.exports.createUser = function(firstName,lastName,email,password){
   });
 }
 
-
-
 //retrieve existing user from 'users' database
 module.exports.getUser = function(email,plainTextPassword){
   //search by 'email' into 'users' database
@@ -62,19 +60,11 @@ module.exports.getUser = function(email,plainTextPassword){
 }
 
 
-
 //save new signature to DB
-module.exports.savePerson = function(firstName,lastName,signature){
+module.exports.createSignature = function(user_id,firstName,lastName,signature){
   //set up query to put data into DB
-  const query = 'INSERT INTO signatures (first,last,signature) VALUES ($1,$2,$3) RETURNING id';
-  return db.query(query,[firstName,lastName,signature]);
-}
-
-//retrieve all people that signed the petition
-module.exports.retrievePeople = function(){
-  //set up query to put data into DB
-  const query = 'SELECT first,last FROM signatures';
-  return db.query(query);
+  const query = 'INSERT INTO signatures (user_id,first,last,signature) VALUES ($1,$2,$3,$4)';
+  return db.query(query,[user_id,firstName,lastName,signature]);
 }
 
 //grab user's signature for the petition
@@ -82,4 +72,12 @@ module.exports.getSignature = function(id){
   //set up query to retrieve specific signature from DB
   const query = `SELECT signature FROM signatures WHERE id = $1`;
   return db.query(query,[id]);
+}
+
+
+//retrieve all people that signed the petition
+module.exports.retrievePeople = function(){
+  //set up query to put data into DB
+  const query = 'SELECT first,last FROM signatures';
+  return db.query(query);
 }

@@ -54,7 +54,7 @@ module.exports = function(app){
   });
 
 
-  app.get('/petition',publicize,function(req,res){
+  app.get('/petition',function(req,res){
     //grab user's first and last name from cookie to  prepopulate <input> fields inside <form>
     const {first,last} = req.session.user;
     res.render('petition',{
@@ -74,12 +74,11 @@ module.exports = function(app){
         last: last
       });
     }
-    //if all <input> fields filled,save signed person to database
-    dbMethods.savePerson(firstName,lastName,signature)
-    .then(function(result){
-      //grab 'id' of currently saved signature on DB, and set it as cookie on user's browser
-      req.session.userId = result.rows.pop().id;
-      //redirect user away
+    //if all <input> fields filled,save signature to database
+    const {user_id} = req.session.user;
+    dbMethods.createSignature(user_id,firstName,lastName,signature)
+    .then(function(){
+      //redirect user away after saving signature
       res.redirect('/signed');
     })
     .catch(function(err){
@@ -89,7 +88,7 @@ module.exports = function(app){
   });
 
 
-  app.get('/signed',privatize,function(req,res){
+  app.get('/signed',function(req,res){
     //take user's id from cookies and  grab his signature from DB
     dbMethods.getSignature(req.session.userId)
     .then(function(signature){
