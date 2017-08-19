@@ -57,13 +57,17 @@ $(document).ready(function(){
 
   // //PROGRESS-BAR
   //check if progress-bar in current webpage
-  const $bar = $("#progress-bar");
+  const $bar = $('#progress-bar');
   if($bar){
+    //grab goal number for actual petition and number of currently signed users
+    const signers = Number($('#petition-signers').text());
+    const goal = Number($('#petition-goal').text());
+    const completed = Math.round(signers/goal*100);
     function move() {
       let width = 0;
       const id = setInterval(frame, 20);
       function frame() {
-        if (width >= 80) {
+        if (width >= completed) {
           clearInterval(id);
         } else {
           width++;
