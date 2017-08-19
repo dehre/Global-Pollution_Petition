@@ -29,14 +29,11 @@ module.exports = function(app){
   app.use('/petition',function(req,res,next){
     dbMethods.getSignature(req.session.user.user_id)
     .then(function(signature){
-      if(signature.rows[0]){
-        return res.redirect('/signed');
-      }
-      next();
+      return res.redirect('/signed');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened retrieving signature from DB.`);
+      //if signature is not found, promise is rejected, so just catch the error and move user along
+      next();
     })
   });
 

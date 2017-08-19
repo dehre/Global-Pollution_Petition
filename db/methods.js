@@ -71,7 +71,10 @@ module.exports.createSignature = function(user_id,firstName,lastName,signature){
 module.exports.getSignature = function(user_id){
   //set up query to retrieve specific signature from DB
   const query = `SELECT signature FROM signatures WHERE user_id = $1`;
-  return db.query(query,[user_id]);
+  return db.query(query,[user_id])
+  .then(function(signatureObj){
+    return signatureObj.rows[0].signature;
+  });
 }
 
 //retrieve all people that signed the petition

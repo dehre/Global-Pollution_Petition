@@ -1,6 +1,5 @@
 //methods for working with database
 const dbMethods = require('../db/methods');
-const {publicize,privatize} = require('./middleware_helpers');
 
 //set all routes used inside express app
 module.exports = function(app){
@@ -94,9 +93,7 @@ module.exports = function(app){
     dbMethods.getSignature(req.session.user.user_id)
     .then(function(signature){
       //pass the signature I got back to 'signed' template
-      res.render('signed',{
-        signature:signature.rows[0].signature
-      });
+      res.render('signed',{signature:signature});
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
