@@ -74,7 +74,6 @@ module.exports.getSignature = function(user_id){
   return db.query(query,[user_id]);
 }
 
-
 //retrieve all people that signed the petition
 module.exports.getSigners = function(){
   //set up query to put data into DB

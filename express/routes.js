@@ -1,3 +1,4 @@
+//methods for working with database
 const dbMethods = require('../db/methods');
 const {publicize,privatize} = require('./middleware_helpers');
 
@@ -99,7 +100,7 @@ module.exports = function(app){
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened retrieving data from DB.`);
+      res.send(`Error happened retrieving signature from DB.`);
     })
   });
 
