@@ -76,7 +76,7 @@ module.exports.getSignature = function(user_id){
 
 
 //retrieve all people that signed the petition
-module.exports.retrievePeople = function(){
+module.exports.getSigners = function(){
   //set up query to put data into DB
   const query = 'SELECT first,last FROM signatures';
   return db.query(query);

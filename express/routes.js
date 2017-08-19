@@ -75,8 +75,8 @@ module.exports = function(app){
       });
     }
     //if all <input> fields filled,save signature to database
-    const {user_id} = req.session.user;
-    dbMethods.createSignature(user_id,firstName,lastName,signature)
+    const {user_id,first,last} = req.session.user;
+    dbMethods.createSignature(user_id,first,last,signature)
     .then(function(){
       //redirect user away after saving signature
       res.redirect('/signed');
@@ -105,7 +105,7 @@ module.exports = function(app){
 
   app.get('/signers',function(req,res){
     //retrieve signed people's name from database and pass data to template
-    dbMethods.retrievePeople()
+    dbMethods.getSigners()
     .then(function(results){
       res.render('signers',{
         signers: results.rows
