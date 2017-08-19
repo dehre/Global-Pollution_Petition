@@ -10,11 +10,11 @@ const app = express();
 app.engine('handlebars', hb({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//set up middlewares
-middlewares(app);
-
 //serve static files
 app.use('/static',express.static(__dirname + '/static'));
+
+//set up middlewares
+middlewares(app);
 
 // set up routes
 routes(app);

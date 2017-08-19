@@ -14,4 +14,13 @@ module.exports = function(app){
     maxAge: 1000*60*60*24*14
   }));
 
+  //redirect not registered users to GET'/register' if they're accessing private pages
+  app.use(function(req,res,next){
+    const allowedUrls = ['/register','/login'];
+    if(allowedUrls.indexOf(req.url)===-1 && !req.session.user){
+      return res.render('register');
+    }
+    next();
+  });
+
 };
