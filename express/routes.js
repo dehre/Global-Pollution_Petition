@@ -104,6 +104,7 @@ module.exports = function(app){
     //retrieve signed people's name from database and pass data to template
     dbMethods.getSigners()
     .then(function(signers){
+      console.log('signers are',signers.length);
       res.render('signers',{signers: signers});
     })
     .catch(function(err){
