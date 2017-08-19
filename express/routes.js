@@ -118,6 +118,11 @@ module.exports = function(app){
     });
   });
 
+  app.get('/logout',function(req,res){
+    req.session.user = null;
+    res.redirect('/register');
+  });
+
   //catch all request for unexisting routes
   app.get('*',function(req,res){
     res.redirect('/petition');
