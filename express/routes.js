@@ -67,7 +67,12 @@ module.exports = function(app){
     const {firstName,lastName,signature} = req.body;
     if(!(firstName && lastName && signature)){
       //if not all fields were filled, just render the 'petition' template again with an error message, then exit the function
-      return res.render('petition',{showError: true});
+      const {first,last} = req.session.user;
+      return res.render('petition',{
+        showError: true,
+        first: first,
+        last: last
+      });
     }
     //if all <input> fields filled,save signed person to database
     dbMethods.savePerson(firstName,lastName,signature)
