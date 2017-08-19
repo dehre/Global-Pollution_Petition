@@ -18,7 +18,7 @@ module.exports = function(app){
   app.use(function(req,res,next){
     const allowedUrls = ['/register','/login'];
     if(allowedUrls.indexOf(req.url)===-1 && !req.session.user){
-      return res.render('register');
+      return res.redirect('/register');
     }
     next();
   });

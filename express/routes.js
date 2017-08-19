@@ -55,7 +55,12 @@ module.exports = function(app){
 
 
   app.get('/petition',publicize,function(req,res){
-    res.render('petition');
+    //grab user's first and last name from cookie to  prepopulate <input> fields inside <form>
+    const {first,last} = req.session.user;
+    res.render('petition',{
+      first: first,
+      last: last
+    });
   });
 
   app.post('/petition',function(req,res){
