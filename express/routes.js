@@ -104,8 +104,20 @@ module.exports = function(app){
     //retrieve signed people's name from database and pass data to template
     dbMethods.getSigners()
     .then(function(signers){
-      console.log('signers are',signers.length);
-      res.render('signers',{signers: signers});
+      return dbMethods.getPetitionGoal()
+      .then(function(goal){
+        return {
+          signers: signers,
+          goal: goal
+        }
+      })
+    })
+    .then(function(signersAndGoalObj){
+      res.render('signers',{
+        signers: signersAndGoalObj.signers,
+        signersNumber: signersAndGoalObj.signers.length,
+        goal: signersAndGoalObj.goal
+      });
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
