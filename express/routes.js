@@ -19,7 +19,6 @@ module.exports = function(app){
     .then(function(result){
       //grab 'id','firstName','lastName' of new registered user, and set them as cookie on user's browser
       req.session.user = result;
-      //redirect user away
       res.redirect('/petition');
     })
     .catch(function(err){
@@ -30,7 +29,8 @@ module.exports = function(app){
 
 
   app.get('/login',function(req,res){
-    res.render('login');
+    //show error message only if '?error=<something>' query params are passed --> in case of bad login credentials
+    res.render('login',{showError:req.query.error});
   });
 
   app.post('/login',function(req,res){
@@ -44,12 +44,12 @@ module.exports = function(app){
     .then(function(result){
       //set 'id','firstName','lastName' of logged in user as cookies on user's browser
       req.session.user = result;
-      //redirect user away
       res.redirect('/petition');
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened grabbing existing user from DB`);
+      //redirect users to 'login' page with error message
+      res.redirect('/login?error=true');
     });
   });
 
