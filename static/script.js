@@ -65,7 +65,7 @@ $(document).ready(function(){
     const completed = Math.round(signers/goal*100);
     function move() {
       let width = 0;
-      const id = setInterval(frame, 20);
+      const id = setInterval(frame, 25);
       function frame() {
         if (width >= completed) {
           clearInterval(id);

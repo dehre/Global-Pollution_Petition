@@ -158,9 +158,30 @@ ul {
 body {
   background-color: #FAFBFC;
 }
+.navbar-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 5rem;
+  background-color: rgba(50,50,50,.3);
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  height: 5rem;
+}
+.navbar-item {
+  padding: .4em;
+}
+.navbar-item:first-child {
+  margin-right: auto;
+}
 .container {
   width: 95%;
-  margin: 2em auto 4em;
+  margin-left: auto;
+  margin-right: auto;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 30px;
 }
