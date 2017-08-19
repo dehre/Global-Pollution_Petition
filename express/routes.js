@@ -104,10 +104,8 @@ module.exports = function(app){
   app.get('/signers',function(req,res){
     //retrieve signed people's name from database and pass data to template
     dbMethods.getSigners()
-    .then(function(results){
-      res.render('signers',{
-        signers: results.rows
-      });
+    .then(function(signers){
+      res.render('signers',{signers: signers});
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);

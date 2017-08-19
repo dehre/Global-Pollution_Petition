@@ -81,5 +81,8 @@ module.exports.getSignature = function(user_id){
 module.exports.getSigners = function(){
   //set up query to put data into DB
   const query = 'SELECT first,last FROM signatures';
-  return db.query(query);
+  return db.query(query)
+  .then(function(signersObj){
+    return signersObj.rows;
+  });
 }
