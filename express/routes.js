@@ -173,6 +173,11 @@ module.exports = function(app){
     });
   });
 
+  //handle browser's requests for 'favicon.ico'
+  app.get('/favicon.ico', function(req, res){
+    res.status(204);
+  });
+
   //catch all request for unexisting routes
   app.get('*',function(req,res){
     res.redirect('/petition');
