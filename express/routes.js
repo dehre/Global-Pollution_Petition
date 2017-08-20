@@ -56,11 +56,32 @@ module.exports = function(app){
 
 
   app.get('/petition',function(req,res){
-    //grab user's first and last name from cookie to  prepopulate <input> fields inside <form>
-    const {first,last} = req.session.user;
-    res.render('petition',{
-      first: first,
-      last: last
+    //retrieve number of signed people
+    dbMethods.getSigners()
+    .then(function(signers){
+      return dbMethods.getPetitionGoal()
+      .then(function(goal){
+        return {
+          signers: signers,
+          goal: goal
+        }
+      })
+    })
+    .then(function(signersAndGoalObj){
+      //grab user's first and last name from cookie to populate template
+      const {first,last} = req.session.user;
+      res.render('petition',{
+        first: first,
+        last: last,
+        signersNumber: signersAndGoalObj.signers.length,
+        goal: signersAndGoalObj.goal
+      });
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: 'Error happened retrieving data from database'
+      });
     });
   });
 
