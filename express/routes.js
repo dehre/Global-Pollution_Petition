@@ -23,7 +23,9 @@ module.exports = function(app){
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened creating new user into DB`);
+      res.render('error',{
+        errorMessage: 'Error happened creating new user into database'
+      });
     });
   });
 
@@ -82,7 +84,9 @@ module.exports = function(app){
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened saving data to DB.`);
+      res.render('error',{
+        errorMessage: 'Error happened saving your signature into database'
+      });
     });
   });
 
@@ -101,7 +105,9 @@ module.exports = function(app){
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened retrieving signature from DB.`);
+      res.render('error',{
+        errorMessage: 'Error happened retrieving your signature from database'
+      });
     })
   });
 
@@ -129,7 +135,9 @@ module.exports = function(app){
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.send(`Error happened retrieving data from DB.`);
+      res.render('error',{
+        errorMessage: 'Error happened retrieving data from database'
+      });
     });
   });
 
@@ -139,7 +147,9 @@ module.exports = function(app){
   });
 
   app.get('/error',function(req,res){
-    res.render('error');
+    res.render('error',{
+      errorMessage: 'Error happened retrieving data from database'
+    });
   });
 
   //catch all request for unexisting routes
