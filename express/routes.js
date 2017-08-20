@@ -138,6 +138,10 @@ module.exports = function(app){
     res.redirect('/register');
   });
 
+  app.get('/error',function(req,res){
+    res.render('error');
+  });
+
   //catch all request for unexisting routes
   app.get('*',function(req,res){
     res.redirect('/petition');
