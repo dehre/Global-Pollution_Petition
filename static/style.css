@@ -4,7 +4,7 @@ body {
 }
 a {
   text-decoration: none;
-  color: blue;
+  color: #00308F;
 }
 ul {
   margin: 0;
@@ -209,6 +209,7 @@ body {
 }
 /**/
 .btn {
+  display: inline-block;
   padding: .5em 1em;
   border: none;
   border-radius: 15px 50px;
@@ -217,6 +218,10 @@ body {
   font-family: monospace;
   font-weight: bold;
   cursor: pointer;
+}
+.btn-darkblue-trans {
+  border: 3px solid #020181;
+  color: #020181;
 }
 .btn-green {
   background-color: #4CAF50;
@@ -245,13 +250,13 @@ body {
 .signers-list {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
+  padding: 1em;
   background-color: white;
   line-height: 2em;
 }
 .signers-list li {
   flex: 1 100%;
+  margin: .3em 0;
 }
 /**/
 #progress {
