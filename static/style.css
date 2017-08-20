@@ -164,14 +164,15 @@ li {
 body {
   background-color: #FAFBFC;
 }
+/**/
 .navbar-background {
-  height: 6rem;
+  height: 8rem;
   background-color: rgba(0,0,0,.7);
 }
 .navbar {
   display: flex;
   align-items: center;
-  height: 6rem;
+  height: 8rem;
 }
 .navbar-item {
   padding: .7em;
@@ -183,6 +184,7 @@ body {
 .navbar-item:first-child {
   margin-right: auto;
 }
+/**/
 .container {
   width: 95%;
   margin-left: auto;
@@ -190,6 +192,7 @@ body {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 30px;
 }
+/**/
 .form-fields input {
   width: 80%;
   font-size: .8em;
@@ -199,21 +202,29 @@ body {
   display: flex;
   justify-content: center;
 }
+/**/
 .signature {
   background-color: white;
   border: 2px dotted grey;
 }
+/**/
 .green-btn {
-  padding: .3em .8em;
+  padding: .5em 1em;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px 50px;
   letter-spacing: 2px;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-family: monospace;
   font-weight: bold;
+  cursor: pointer;
 }
+/**/
+#signature-canvas {
+  cursor: crosshair;
+}
+/**/
 .signed-petition {
   display: flex;
   align-items: center;
@@ -224,6 +235,7 @@ body {
 .signed-petition-sign {
   width: 55%;
 }
+
 .signers-list {
   display: flex;
   flex-wrap: wrap;
@@ -235,6 +247,7 @@ body {
 .signers-list li {
   flex: 1 100%;
 }
+/**/
 #progress {
   border: 1px solid grey;
   border-radius: 10px;
@@ -253,6 +266,7 @@ body {
   text-align: right;
   font-style: italic;
 }
+/**/
 @media screen and (min-width: 768px){
   .signed-petition-img {
     width: 25%;
@@ -266,6 +280,9 @@ body {
     width: 85%;
     font-size: 25px;
   }
+  .navbar-background,.navbar {
+    height: 5rem;
+  }
 }
 @media screen and (min-width: 1200px){
   .container {
@@ -274,5 +291,11 @@ body {
   }
   .signers-list li {
     flex: 1 50%;
+  }
+  .green-btn {
+    padding: .4em .8em;
+    border-radius: 15px 50px;
+    letter-spacing: 2px;
+    font-size: 2rem;
   }
 }

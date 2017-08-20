@@ -15,21 +15,14 @@
 
 {{> _errorMessage}}
 
-<form class="form-fields text-center font-16" action='/petition' method='post'>
-  <div class="text-fields">
-    <div class="mar-xs">
-      <input type="text" name="firstName" value="{{first}}" readonly>
-      <h6 class="mar-xs">First Name</h6>
-    </div>
-    <div class="mar-xs">
-      <input type="text" name="lastName" value="{{last}}" readonly>
-      <h6 class="mar-xs">Last Name</h6>
-    </div>
+<form class="text-center font-16" action='/petition' method='post'>
+  <div class="">
+    <h3 class="mar-vert-sm">John Doe Loooong Name</h3>
   </div>
   <div class="mar-vert-xs">
     <canvas id="signature-canvas" class="signature" width="600" height="120"></canvas>
-    <h6 class="mar-xs">Signature</h6>
+    <h5 class="mar-xs">Your Signature</h5>
   </div>
   <input type="hidden" name="signature">
-  <button class="block-center mar-vert-md green-btn" type="submit">SUBMIT</button>
+  <button class="block-center mar-vert-md green-btn" type="submit">Submit</button>
 </form>
