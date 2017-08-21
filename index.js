@@ -1,6 +1,6 @@
 const express = require('express');
 const hb = require('express-handlebars');
-const middlewares = require('./express/middlewares');
+const {middlewares} = require('./express/middlewares');
 const routes = require('./express/routes');
 
 //create express application

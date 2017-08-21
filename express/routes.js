@@ -1,3 +1,5 @@
+//middlewares to apply to specific routes
+const {isSigned} = require('./middlewares.js');
 //methods for working with database
 const dbMethods = require('../db/methods');
 
@@ -86,7 +88,7 @@ module.exports = function(app){
   });
 
 
-  app.get('/petition',function(req,res){
+  app.get('/petition',isSigned,function(req,res){
     //retrieve number of signed people
     dbMethods.getSigners()
     .then(function(signers){
@@ -220,6 +222,5 @@ module.exports = function(app){
   app.get('*',function(req,res){
     res.redirect('/petition');
   });
-
 
 };
