@@ -201,7 +201,7 @@ module.exports = function(app){
 
   //handle browser's requests for 'favicon.ico'
   app.get('/favicon.ico', function(req, res){
-    res.status(204);
+    res.redirect('/static/images/favicon.ico');
   });
 
   //catch all request for unexisting routes
