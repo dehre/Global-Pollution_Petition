@@ -86,7 +86,7 @@ module.exports.getUserProfile = function(user_id){
 //save new signature to DB
 module.exports.createSignature = function(user_id,firstName,lastName,signature){
   //set up query to put data into DB
-  const query = 'INSERT INTO signatures (user_id,first,last,signature) VALUES ($1,$2,$3,$4)';
+  const query = 'INSERT INTO signatures (user_id,first,last,signature,petition_id,petition_goal) VALUES ($1,$2,$3,$4,1,15)';
   return db.query(query,[user_id,firstName,lastName,signature]);
 }
 
