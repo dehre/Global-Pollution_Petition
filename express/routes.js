@@ -90,7 +90,7 @@ module.exports = function(app){
     //retrieve number of signed people
     dbMethods.getSigners()
     .then(function(signers){
-      //grab user's first and last name from cookie to populate template
+      //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
       res.render('petition',{
         first: first,
@@ -157,22 +157,14 @@ module.exports = function(app){
     //retrieve signed people's name from database and pass data to template
     dbMethods.getSigners()
     .then(function(signers){
-      return dbMethods.getPetitionGoal()
-      .then(function(goal){
-        return {
-          signers: signers,
-          goal: goal
-        }
-      })
-    })
-    .then(function(signersAndGoalObj){
+      //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
       res.render('signers',{
         first: first,
         last: last,
-        signers: signersAndGoalObj.signers,
-        signersNumber: signersAndGoalObj.signers.length,
-        goal: signersAndGoalObj.goal
+        signers: signers,
+        signersNumber: signers.length,
+        goal: signers[0].petition_goal
       });
     })
     .catch(function(err){
@@ -186,22 +178,14 @@ module.exports = function(app){
   app.get('/signers/:city',function(req,res){
     dbMethods.getSigners(req.params.city.toLowerCase())
     .then(function(signers){
-      return dbMethods.getPetitionGoal()
-      .then(function(goal){
-        return {
-          signers: signers,
-          goal: goal
-        }
-      })
-    })
-    .then(function(signersAndGoalObj){
+      //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
       res.render('signers',{
         first: first,
         last: last,
-        signers: signersAndGoalObj.signers,
-        signersNumber: signersAndGoalObj.signers.length,
-        goal: signersAndGoalObj.goal
+        signers: signers,
+        signersNumber: signers.length,
+        goal: signers[0].petition_goal
       });
     })
     .catch(function(err){

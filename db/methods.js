@@ -106,7 +106,7 @@ module.exports.getSigners = function(city){
   let query = 'SELECT first,last,age,city,homepage, petition_goal FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id WHERE petition_id = 1';
   //if city name passed as argument, retrieve signers by city
   if(city){
-    query += ` WHERE city = $1`;
+    query += ' WHERE city = $1';
     return db.query(query,[city])
     .then(function(signersObj){
       return signersObj.rows;
@@ -116,16 +116,5 @@ module.exports.getSigners = function(city){
   return db.query(query)
   .then(function(signersObj){
     return signersObj.rows;
-  });
-}
-
-
-//grab number of signers needed to complete the petition
-module.exports.getPetitionGoal = function(){
-  //set up query to grab data from DB
-  const query = 'SELECT goal FROM petitions WHERE id=1';
-  return db.query(query)
-  .then(function(goalObj){
-    return goalObj.rows[0].goal;
   });
 }
