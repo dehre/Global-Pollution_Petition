@@ -29,6 +29,8 @@ CREATE TABLE signatures(
   first VARCHAR(200) NOT NULL,
   last VARCHAR(200) NOT NULL,
   signature TEXT NOT NULL,
+  petition_id INTEGER REFERENCES petitions(id),
+  petition_goal INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
