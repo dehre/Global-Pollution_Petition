@@ -90,22 +90,13 @@ module.exports = function(app){
     //retrieve number of signed people
     dbMethods.getSigners()
     .then(function(signers){
-      return dbMethods.getPetitionGoal()
-      .then(function(goal){
-        return {
-          signers: signers,
-          goal: goal
-        }
-      })
-    })
-    .then(function(signersAndGoalObj){
       //grab user's first and last name from cookie to populate template
       const {first,last} = req.session.user;
       res.render('petition',{
         first: first,
         last: last,
-        signersNumber: signersAndGoalObj.signers.length,
-        goal: signersAndGoalObj.goal
+        signersNumber: signers.length,
+        goal: signers[0].petition_goal
       });
     })
     .catch(function(err){
