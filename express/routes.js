@@ -24,7 +24,7 @@ module.exports = function(app){
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       res.render('error',{
-        errorMessage: 'Error happened creating new user into database'
+        errorMessage: 'A user with this email exists already'
       });
     });
   });
@@ -122,7 +122,7 @@ module.exports = function(app){
     dbMethods.createSignature(user_id,signature)
     .then(function(){
       //redirect user away after saving signature
-      res.redirect('/signed');
+      res.redirect('/petition/signed');
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
@@ -133,7 +133,8 @@ module.exports = function(app){
   });
 
 
-  app.get('/signed',function(req,res){
+  // CHANGE '/PETITION/SIGNED'
+  app.get('/petition/signed',function(req,res){
     //take user's id from cookies and  grab his signature from DB
     dbMethods.getSignature(req.session.user.user_id)
     .then(function(signature){
@@ -153,7 +154,8 @@ module.exports = function(app){
     })
   });
 
-  app.get('/signers',function(req,res){
+  // CHANGE '/PETITION/SIGNERS'
+  app.get('/petition/signers',function(req,res){
     //retrieve signed people's name from database and pass data to template
     dbMethods.getSigners()
     .then(function(signers){
@@ -175,7 +177,8 @@ module.exports = function(app){
     });
   });
 
-  app.get('/signers/:city',function(req,res){
+  // CHANGE '/PETITION/SIGNERS/:CITY'
+  app.get('/petition/signers/:city',function(req,res){
     dbMethods.getSigners(req.params.city.toLowerCase())
     .then(function(signers){
       //grab user's first and last name from cookie to populate navbar

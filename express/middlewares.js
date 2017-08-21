@@ -26,15 +26,15 @@ module.exports = function(app){
   });
 
   //if users try to sign petition that have signed already, redirect to '/signed' to show they're signature
-  app.use('/petition',function(req,res,next){
-    dbMethods.getSignature(req.session.user.user_id)
-    .then(function(signature){
-      return res.redirect('/signed');
-    })
-    .catch(function(err){
-      //if signature is not found, promise is rejected, so just catch the error and move user along
-      next();
-    })
-  });
+  // app.use('/petition',function(req,res,next){
+  //   dbMethods.getSignature(req.session.user.user_id)
+  //   .then(function(signature){
+  //     return res.redirect('/signed');
+  //   })
+  //   .catch(function(err){
+  //     //if signature is not found, promise is rejected, so just catch the error and move user along
+  //     next();
+  //   })
+  // });
 
 };
