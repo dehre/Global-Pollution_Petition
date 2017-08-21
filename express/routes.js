@@ -31,7 +31,6 @@ module.exports = function(app){
     });
   });
 
-
   app.get('/login',function(req,res){
     res.render('login');
   });
@@ -55,7 +54,6 @@ module.exports = function(app){
       res.render('login',{showError:true});
     });
   });
-
 
   app.get('/profile',function(req,res){
     //grab existing user's profile data if any, then render 'profile' template using them
@@ -86,7 +84,6 @@ module.exports = function(app){
       });
     });
   });
-
 
   app.get('/petition',isSigned,function(req,res){
     //retrieve number of signed people
@@ -134,8 +131,6 @@ module.exports = function(app){
     });
   });
 
-
-  // CHANGE '/PETITION/SIGNED'
   app.get('/petition/signed',function(req,res){
     //take user's id from cookies and  grab his signature from DB
     dbMethods.getSignature(req.session.user.user_id)
@@ -156,7 +151,6 @@ module.exports = function(app){
     })
   });
 
-  // CHANGE '/PETITION/SIGNERS'
   app.get('/petition/signers',function(req,res){
     //retrieve signed people's name from database and pass data to template
     dbMethods.getSigners()
@@ -179,7 +173,6 @@ module.exports = function(app){
     });
   });
 
-  // CHANGE '/PETITION/SIGNERS/:CITY'
   app.get('/petition/signers/:city',function(req,res){
     dbMethods.getSigners(req.params.city.toLowerCase())
     .then(function(signers){
@@ -201,16 +194,9 @@ module.exports = function(app){
     });
   });
 
-
   app.get('/logout',function(req,res){
     req.session.user = null;
     res.redirect('/register');
-  });
-
-  app.get('/error',function(req,res){
-    res.render('error',{
-      errorMessage: 'Error happened retrieving data from database'
-    });
   });
 
   //handle browser's requests for 'favicon.ico'
