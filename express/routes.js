@@ -86,10 +86,10 @@ module.exports = function(app){
   });
 
   app.post('/petition',function(req,res){
-    const {firstName,lastName,signature} = req.body;
-    if(!(firstName && lastName && signature)){
-      //if not all fields were filled, just render the 'petition' template again with an error message, then exit the function
-      const {first,last} = req.session.user;
+    const {signature} = req.body;
+    const {user_id,first,last} = req.session.user;
+    if(!signature){
+      //if signature (<canvas>) is not filled, just render the 'petition' template again with an error message, then exit the function
       return res.render('petition',{
         first: first,
         last: last,
@@ -97,7 +97,6 @@ module.exports = function(app){
       });
     }
     //if all <input> fields filled,save signature to database
-    const {user_id,first,last} = req.session.user;
     dbMethods.createSignature(user_id,first,last,signature)
     .then(function(){
       //redirect user away after saving signature
