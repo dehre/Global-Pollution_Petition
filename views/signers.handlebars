@@ -11,7 +11,9 @@
 <ul class="signers-list font-13 box-90 block-center shadow">
   {{#each signers}}
   <li "text-center">
-    &#9997; {{first}} {{last}} third Long Name (32, Minnesota)
+    &#9997; <a {{#if homepage}}href="https://{{homepage}}" class="text-link"{{/if}}>{{first}} {{last}}</a>
+    {{#if age}}({{age}}){{/if}}
+    <a href="/signers/{{city}}" class="text-link" style="text-transform:capitalize">{{city}}</a>
   </li>
   {{/each}}
 </ul>

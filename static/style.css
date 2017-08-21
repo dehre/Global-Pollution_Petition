@@ -153,6 +153,10 @@ li {
 .text-error {
   color: red;
 }
+.text-link {
+  color: blue;
+  text-decoration: underline;
+}
 .rounded {
   border-radius: 10px;
 }

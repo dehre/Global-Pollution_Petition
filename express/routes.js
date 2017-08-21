@@ -73,7 +73,7 @@ module.exports = function(app){
   app.post('/profile',function(req,res){
     const {age,city,homepage} = req.body;
     const {user_id} = req.session.user;
-    dbMethods.createUserProfile(user_id,age,city,homepage)
+    dbMethods.createUserProfile(user_id,age,city.toLowerCase(),homepage)
     .then(function(){
       res.redirect('/petition');
     })

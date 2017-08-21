@@ -103,12 +103,13 @@ module.exports.getSignature = function(user_id){
 //retrieve all people that signed the petition
 module.exports.getSigners = function(){
   //set up query to put data into DB
-  const query = 'SELECT first,last FROM signatures';
+  const query = 'SELECT first,last,age,city,homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id;';
   return db.query(query)
   .then(function(signersObj){
     return signersObj.rows;
   });
 }
+
 
 //grab number of signers needed to complete the petition
 module.exports.getPetitionGoal = function(){
