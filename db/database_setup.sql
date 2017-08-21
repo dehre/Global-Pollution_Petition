@@ -33,9 +33,9 @@ CREATE TABLE signatures(
 );
 
 
-DROP TABLE IF EXISTS petition;
+DROP TABLE IF EXISTS petitions;
 
-CREATE TABLE petition(
+CREATE TABLE petitions(
   id SERIAL PRIMARY KEY,
   owner_id INTEGER NOT NULL,
   name VARCHAR(200) NOT NULL,
@@ -44,4 +44,4 @@ CREATE TABLE petition(
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO petition (owner_id,name,description,goal) VALUES(1,'Pollution','WorldWide Campaign against Plastic Pollution in Oceans',15);
+INSERT INTO petitions (owner_id,name,description,goal) VALUES(1,'Pollution','WorldWide Campaign against Plastic Pollution in Oceans',15);

@@ -123,7 +123,7 @@ module.exports.getSigners = function(city){
 //grab number of signers needed to complete the petition
 module.exports.getPetitionGoal = function(){
   //set up query to grab data from DB
-  const query = 'SELECT goal FROM petition WHERE id=1';
+  const query = 'SELECT goal FROM petitions WHERE id=1';
   return db.query(query)
   .then(function(goalObj){
     return goalObj.rows[0].goal;
