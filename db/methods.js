@@ -8,7 +8,7 @@ const {dbUser,dbPassword} = require('../secret.json');
 //setup database
 const db = spicedPg(`postgres:${dbUser}:${dbPassword}@localhost:5432/Loris`);
 
-//create new user inside 'users' database
+//create new user inside 'users' table
 module.exports.createUser = function(firstName,lastName,email,password){
   //hash user's password before putting into database
   return hashPassword(password)
@@ -57,6 +57,26 @@ module.exports.getUser = function(email,plainTextPassword){
       };
     })
   });
+}
+
+
+//save-update user's profile inside 'user_profiles' table
+module.exports.createUserProfile = function(user_id,age,city,homepage){
+  //delete previous data if any
+  const query = 'DELETE FROM user_profiles WHERE user_id = $1';
+  return db.query(query,[user_id])
+  .then(function(){
+    //set up query to put new data into DB
+    const query = 'INSERT INTO user_profiles (user_id,age,city,homepage) VALUES ($1,$2,$3,$4)';
+    return db.query(query,[user_id,age,city,homepage]);
+  });
+}
+
+// get user's profile given his 'id'
+module.exports.getUserProfile = function(user_id){
+  //search by 'user_id' from 'user_profiles' table
+  const query = 'SELECT age,city,homepage FROM user_profiles WHERE user_id = $1';
+  return db.query(query,[user_id]);
 }
 
 

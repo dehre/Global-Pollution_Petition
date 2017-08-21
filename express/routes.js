@@ -61,8 +61,17 @@ module.exports = function(app){
 
   app.post('/profile',function(req,res){
     const {age,city,homepage} = req.body;
-    console.log(age,city,homepage);
-    res.redirect('/petition');
+    const {user_id} = req.session.user;
+    dbMethods.createUserProfile(user_id,age,city,homepage)
+    .then(function(){
+      res.redirect('/petition');
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: `Error happened adding user's profile into database`
+      });
+    });
   });
 
 
