@@ -101,9 +101,18 @@ module.exports.getSignature = function(user_id){
 }
 
 //retrieve all people that signed the petition
-module.exports.getSigners = function(){
+module.exports.getSigners = function(city){
   //set up query to put data into DB
-  const query = 'SELECT first,last,age,city,homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id;';
+  let query = 'SELECT first,last,age,city,homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id';
+  //if city name passed as argument, retrieve signers by city
+  if(city){
+    query += ` WHERE city = $1`;
+    return db.query(query,[city])
+    .then(function(signersObj){
+      return signersObj.rows;
+    });
+  }
+  //otherwise retrieve all signers
   return db.query(query)
   .then(function(signersObj){
     return signersObj.rows;

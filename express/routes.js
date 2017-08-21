@@ -192,6 +192,36 @@ module.exports = function(app){
     });
   });
 
+  app.get('/signers/:city',function(req,res){
+    dbMethods.getSigners(req.params.city.toLowerCase())
+    .then(function(signers){
+      return dbMethods.getPetitionGoal()
+      .then(function(goal){
+        return {
+          signers: signers,
+          goal: goal
+        }
+      })
+    })
+    .then(function(signersAndGoalObj){
+      const {first,last} = req.session.user;
+      res.render('signers',{
+        first: first,
+        last: last,
+        signers: signersAndGoalObj.signers,
+        signersNumber: signersAndGoalObj.signers.length,
+        goal: signersAndGoalObj.goal
+      });
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: 'Error happened retrieving data from database'
+      });
+    });
+  });
+
+
   app.get('/logout',function(req,res){
     req.session.user = null;
     res.redirect('/register');
