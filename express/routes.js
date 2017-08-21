@@ -19,7 +19,7 @@ module.exports = function(app){
     .then(function(result){
       //grab 'id','firstName','lastName' of new registered user, and set them as cookie on user's browser
       req.session.user = result;
-      res.redirect('/petition');
+      res.redirect('/profile');
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
@@ -52,6 +52,17 @@ module.exports = function(app){
       //redirect users to 'login' page with error message
       res.render('login',{showError:true});
     });
+  });
+
+
+  app.get('/profile',function(req,res){
+    res.render('profile');
+  });
+
+  app.post('/profile',function(req,res){
+    const {age,city,homepage} = req.body;
+    console.log(age,city,homepage);
+    res.redirect('/petition');
   });
 
 
