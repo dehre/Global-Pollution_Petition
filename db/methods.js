@@ -93,7 +93,7 @@ module.exports.createSignature = function(user_id,firstName,lastName,signature){
 //grab user's signature for the petition
 module.exports.getSignature = function(user_id){
   //set up query to retrieve specific signature from DB
-  const query = `SELECT signature FROM signatures WHERE user_id = $1`;
+  const query = `SELECT signature FROM signatures WHERE user_id = $1 AND petition_id = 1`;
   return db.query(query,[user_id])
   .then(function(signatureObj){
     return signatureObj.rows[0].signature;
@@ -103,7 +103,7 @@ module.exports.getSignature = function(user_id){
 //retrieve all people that signed the petition
 module.exports.getSigners = function(city){
   //set up query to put data into DB
-  let query = 'SELECT first,last,age,city,homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id';
+  let query = 'SELECT first,last,age,city,homepage, petition_goal FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id WHERE petition_id = 1';
   //if city name passed as argument, retrieve signers by city
   if(city){
     query += ` WHERE city = $1`;
