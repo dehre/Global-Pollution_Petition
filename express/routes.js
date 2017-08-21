@@ -119,7 +119,7 @@ module.exports = function(app){
       });
     }
     //if all <input> fields filled,save signature to database
-    dbMethods.createSignature(user_id,first,last,signature)
+    dbMethods.createSignature(user_id,signature)
     .then(function(){
       //redirect user away after saving signature
       res.redirect('/signed');
