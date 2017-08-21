@@ -10,6 +10,17 @@ CREATE TABLE users(
 );
 
 
+DROP TABLE IF EXISTS user_profiles;
+
+CREATE TABLE user_profiles(
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  age INTEGER,
+  city VARCHAR(200),
+  homepage VARCHAR(200)
+);
+
+
 DROP TABLE IF EXISTS signatures;
 
 CREATE TABLE signatures(
@@ -32,3 +43,5 @@ CREATE TABLE petition(
   goal INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO petition (owner_id,name,description,goal) VALUES(1,'Pollution','WorldWide Campaign against Plastic Pollution in Oceans',15);
