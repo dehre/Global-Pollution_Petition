@@ -56,7 +56,18 @@ module.exports = function(app){
 
 
   app.get('/profile',function(req,res){
-    res.render('profile');
+    //grab existing user's profile data if any, then render 'profile' template using them
+    const {user_id} = req.session.user;
+    dbMethods.getUserProfile(user_id)
+    .then(function(userProfile){
+      res.render('profile',userProfile);
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: `Error happened retrieving user's profile from database`
+      });
+    });
   });
 
   app.post('/profile',function(req,res){

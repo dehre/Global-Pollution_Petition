@@ -6,15 +6,15 @@
 <form class="form-fields" action="/profile" method="post">
   <div class="mar-vert-sm">
     <h4 class="mar-xs">Age</h4>
-    <input type="text" name="age" placeholder="44">
+    <input type="number" name="age" value="{{age}}" min="0" max="100" range="1" placeholder="44">
   </div>
   <div class="mar-vert-sm">
     <h4 class="mar-xs">City</h4>
-    <input type="text" name="city" placeholder="Berlin">
+    <input type="text" name="city" value="{{city}}" placeholder="Berlin">
   </div>
   <div class="mar-vert-sm">
     <h4 class="mar-xs">Homepage</h4>
-    <input type="text" name="homepage" placeholder="facebook.com/john.doe">
+    <input type="text" name="homepage" value="{{homepage}}" placeholder="facebook.com/john.doe">
   </div>
 <button class="block-center mar-vert-sm btn btn-darkblue" type="submit">CONTINUE</button>
 </form>
