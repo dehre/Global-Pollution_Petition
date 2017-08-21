@@ -66,7 +66,10 @@ module.exports.createUserProfile = function(user_id,age,city,homepage){
   const query = 'DELETE FROM user_profiles WHERE user_id = $1';
   return db.query(query,[user_id])
   .then(function(){
-    //set up query to put new data into DB
+    //set optional values to NULL if not provided
+    if(!age){age=null};
+    if(!city){city=null};
+    if(!homepage){homepage=null};
     const query = 'INSERT INTO user_profiles (user_id,age,city,homepage) VALUES ($1,$2,$3,$4)';
     return db.query(query,[user_id,age,city,homepage]);
   });
