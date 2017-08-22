@@ -62,15 +62,12 @@ module.exports.getUser = function(email,plainTextPassword){
 
 //save-update user's profile inside 'user_profiles' table
 module.exports.createUserProfile = function(user_id,age,city,homepage){
-  return db.query(query,[user_id])
-  .then(function(){
-    //set optional values to NULL if not provided
-    if(!age){age=null};
-    if(!city){city=null};
-    if(!homepage){homepage=null};
-    const query = 'INSERT INTO user_profiles (user_id,age,city,homepage) VALUES ($1,$2,$3,$4)';
-    return db.query(query,[user_id,age,city,homepage]);
-  });
+  //set optional values to NULL if not provided
+  if(!age){age=null};
+  if(!city){city=null};
+  if(!homepage){homepage=null};
+  const query = 'INSERT INTO user_profiles (user_id,age,city,homepage) VALUES ($1,$2,$3,$4)';
+  return db.query(query,[user_id,age,city,homepage]);
 }
 
 
