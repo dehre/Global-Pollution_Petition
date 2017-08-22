@@ -11,12 +11,12 @@ const dbMethods = require('../database/methods');
 //  // //  // //  // //  // //  // //  // //  //
 
 router.get('/',isSigned,function(req,res){
+  //grab user's first and last name from cookie to populate navbar, goal to populate progress-bar
+  const {first,last} = req.session.user;
+  const goal = req.session.goal;
   //retrieve number of signed people
   dbMethods.getSigners()
   .then(function(signers){
-    //grab user's first and last name from cookie to populate navbar
-    const {first,last} = req.session.user;
-    const goal = req.session.goal;
     res.render('petition',{
       first: first,
       last: last,
@@ -35,12 +35,24 @@ router.get('/',isSigned,function(req,res){
 router.post('/',function(req,res){
   const {signature} = req.body;
   const {user_id,first,last} = req.session.user;
+  const goal = req.session.goal;
   if(!signature){
     //if signature (<canvas>) is not filled, just render the 'petition' template again with an error message, then exit the function
-    return res.render('petition',{
-      first: first,
-      last: last,
-      showError: true,
+    return dbMethods.getSigners()
+    .then(function(signers){
+      res.render('petition',{
+        first: first,
+        last: last,
+        signersNumber: signers.length,
+        goal: goal,
+        showError: true
+      });
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: 'Error happened retrieving data from database'
+      });
     });
   }
   //if all <input> fields filled,save signature to database
