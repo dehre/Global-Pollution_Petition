@@ -133,6 +133,17 @@ router.post('/profile/edit',function(req,res){
   });
 });
 
+
+router.get('/profile/edit/password',function(req,res){
+  res.render('editUserPassword');
+});
+
+router.post('/profile/edit/password',function(req,res){
+  const {oldPsw,newPsw,newPswAgain} = req.body;
+  console.log(oldPsw,newPsw,newPswAgain);
+  res.send('edited!')
+});
+
 router.get('/logout',function(req,res){
   req.session = null;
   res.redirect('/register');
