@@ -1,6 +1,6 @@
 const express = require('express');
 //methods for working with database
-const dbMethods = require('../db/methods');
+const dbMethods = require('../database/methods');
 //get back secret for hashing cookies
 const {sessionSecret} = require('../secret.json');
 //set all middlewares used inside express app

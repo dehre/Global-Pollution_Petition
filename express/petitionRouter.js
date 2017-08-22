@@ -4,7 +4,11 @@ const router = express.Router();
 //middlewares to apply to specific routes
 const {isSigned} = require('./middlewares.js');
 //methods for working with database
-const dbMethods = require('../db/methods');
+const dbMethods = require('../database/methods');
+
+//  // //  // //  // //  // //  // //  // //  //
+// ALL PATHS HERE ARE APPENDED TO '/petition' //
+//  // //  // //  // //  // //  // //  // //  //
 
 router.get('/',isSigned,function(req,res){
   //retrieve number of signed people

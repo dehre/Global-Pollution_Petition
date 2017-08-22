@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 //methods for working with database
-const dbMethods = require('../db/methods');
+const dbMethods = require('../database/methods');
+
+//  // //  // //  // //  // //  // //  //
+// ALL PATHS HERE ARE APPENDED TO '/' //
+//  // //  // //  // //  // //  // // //
 
 router.get('/register',function(req,res){
   res.render('register');
