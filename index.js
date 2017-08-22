@@ -1,7 +1,8 @@
 const express = require('express');
 const hb = require('express-handlebars');
 const {middlewares} = require('./express/middlewares');
-const router = require('./express/router');
+const rootRouter = require('./express/rootRouter');
+const petitionRouter = require('./express/petitionRouter');
 
 //create express application
 const app = express();
@@ -17,7 +18,13 @@ app.use('/static',express.static(__dirname + '/static'));
 middlewares(app);
 
 // set up routes
-app.use(router);
+app.use('/',rootRouter);
+app.use('/',petitionRouter);
+
+//catch all request for unexisting routes
+app.get('*',function(req,res){
+  res.redirect('/petition');
+});
 
 //start listening on port 8080
 const port = 8080;
