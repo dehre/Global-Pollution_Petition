@@ -1,7 +1,7 @@
 const express = require('express');
 const hb = require('express-handlebars');
 const {middlewares} = require('./express/middlewares');
-const routes = require('./express/routes');
+const router = require('./express/router');
 
 //create express application
 const app = express();
@@ -17,7 +17,7 @@ app.use('/static',express.static(__dirname + '/static'));
 middlewares(app);
 
 // set up routes
-routes(app);
+app.use(router);
 
 //start listening on port 8080
 const port = 8080;
