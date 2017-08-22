@@ -109,7 +109,7 @@ router.post('/profile/edit',function(req,res){
     return dbMethods.getUserInfo(user_id)
     .then(function(userProfile){
       res.render('editUser',{
-        ...userProfile,        
+        ...userProfile,
         showError: true
       });
     })
@@ -120,8 +120,17 @@ router.post('/profile/edit',function(req,res){
       });
     });
   }
-
-  res.send('data posted')
+  //update user info inside database
+  dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city,homepage)
+  .then(function(){
+    res.redirect('/petition');
+  })
+  .catch(function(err){
+    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+    res.render('error',{
+      errorMessage: `Error happened updating user's personal info into database`
+    });
+  });
 });
 
 router.get('/logout',function(req,res){

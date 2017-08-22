@@ -62,8 +62,6 @@ module.exports.getUser = function(email,plainTextPassword){
 
 //save-update user's profile inside 'user_profiles' table
 module.exports.createUserProfile = function(user_id,age,city,homepage){
-  //delete previous data if any
-  const query = 'DELETE FROM user_profiles WHERE user_id = $1';
   return db.query(query,[user_id])
   .then(function(){
     //set optional values to NULL if not provided
@@ -87,10 +85,19 @@ module.exports.getUserInfo = function(user_id){
 }
 
 //allow user to change his personal data
-module.exports.updateUserInfo = function(firstName,lastName,email,age,city,homepage){
-  
+module.exports.updateUserInfo = function(user_id,firstName,lastName,email,age,city,homepage){
+  //update data into both 'users' and 'user_profiles' table
+  const query = 'UPDATE users SET first=$2, last=$3,email=$4 WHERE id=$1';
+  return db.query(query,[user_id,firstName,lastName,email])
+  .then(function(){
+    //set optional values to NULL if not provided
+    if(!age){age=null};
+    if(!city){city=null};
+    if(!homepage){homepage=null};
+    const query = 'UPDATE user_profiles SET age=$2, city=$3,homepage=$4 WHERE user_id=$1';
+    return db.query(query,[user_id,age,city,homepage])
+  });
 }
-
 
 
 //save new signature to DB
