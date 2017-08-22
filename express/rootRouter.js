@@ -124,12 +124,13 @@ router.get('/profile/edit/password',function(req,res){
 
 router.post('/profile/edit/password',function(req,res){
   const {oldPsw,newPsw,newPswAgain} = req.body;
+  const {user_id} = req.session.user;
   if(newPsw !== newPswAgain){
     //if new passwords don't match, just render the 'editUserPassword' template again with an error message, then exit the function
     return res.render('editUserPassword',{showError: true});
   }
-  dbMethods.changePassword(oldPsw,newPsw)
-  .then(function(){
+  dbMethods.changePassword(user_id,oldPsw,newPsw)
+  .then(function(pass){
     res.redirect('/petition');
   })
   .catch(function(err){

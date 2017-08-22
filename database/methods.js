@@ -100,8 +100,30 @@ module.exports.updateUserInfo = function(user_id,firstName,lastName,email,age,ci
 }
 
 //allow user to change his password
-module.exports.changePassword = function(oldPsw,newPsw){
-
+module.exports.changePassword = function(user_id,oldPsw,newPsw){
+  //search password by 'id' into 'users' database
+  const query = 'SELECT password FROM users WHERE id = $1';
+  return db.query(query,[user_id])
+  .then(function(passwordObj){
+    //grab the hashed old password
+    return passwordObj.rows[0].password
+  })
+  .then(function(databasePassword){
+    //compare saved password with the one provided from user
+    return checkPassword(oldPsw,databasePassword)
+  })
+  .then(function(doesMatch){
+    //if passwords match hash the new one and save into database, otherwise throw an error
+    if(!doesMatch){
+      throw 'Passwords do not match!';
+    }
+    return hashPassword(newPsw)
+  })
+  .then(function(hash){
+    //set up query to put data into DB
+    const query = 'UPDATE users SET password=$1 WHERE id=$2';
+    return db.query(query,[hash,user_id]);
+  })
 }
 
 //save new signature to DB
