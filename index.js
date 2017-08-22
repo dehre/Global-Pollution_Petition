@@ -1,8 +1,7 @@
 const express = require('express');
 const hb = require('express-handlebars');
 const {middlewares} = require('./express/middlewares');
-const rootRouter = require('./express/rootRouter');
-const petitionRouter = require('./express/petitionRouter');
+const {middlewaresExp,rootRouter,petitionRouter} = require('./express');
 
 //create express application
 const app = express();

@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-//middlewares to apply to specific routes
-const {isSigned} = require('./middlewares.js');
 //methods for working with database
 const dbMethods = require('../db/methods');
 
