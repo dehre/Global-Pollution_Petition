@@ -121,3 +121,12 @@ module.exports.getSigners = function(city){
     return signersObj.rows;
   });
 }
+
+//set petition goal as cookie into user's browser
+module.exports.getPetitionGoal = function(){
+  const query = `SELECT goal FROM petitions WHERE id = 1`;
+  return db.query(query)
+  .then(function(goalObj){
+    return goalObj.rows[0].goal
+  })
+}
