@@ -21,6 +21,10 @@ module.exports = function(app){
     .then(function(result){
       //grab 'id','firstName','lastName' of new registered user, and set them as cookie on user's browser
       req.session.user = result;
+      //set petition goal number as cookie (if app grows, allow user to select which petition is gonna see)
+      return dbMethods.setPetitionGoalAsCookie(res)
+    })
+    .then(function(){
       res.redirect('/profile');
     })
     .catch(function(err){
