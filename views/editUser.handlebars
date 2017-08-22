@@ -1,0 +1,38 @@
+<div class="title text-center mar-vert-md">
+  <h1>Edit your profile</h1>
+</div>
+
+{{> _errorMessage}}
+
+<form class="form-fields" action="/profile/edit" method="post">
+  <div class="mar-vert-sm">
+    <h4 class="mar-xs">First Name</h4>
+    <input type="text" name="firstName" value="{{first}}" placeholder="John">
+  </div>
+  <div class="mar-vert-sm">
+    <h4 class="mar-xs">Last Name</h4>
+    <input type="text" name="lastName" value="{{last}}" placeholder="Doe">
+  </div>
+  <div class="mar-vert-sm">
+    <h4 class="mar-xs">Email Address</h4>
+    <input type="text" name="email" value="{{email}}" placeholder="john.doe@mail.com">
+  </div>
+  <div class="mar-vert-sm">
+    <h4 class="mar-xs">Age</h4>
+    <input type="number" name="age" value="{{age}}" min="18" range="1" placeholder="44">
+  </div>
+  <div class="mar-vert-sm">
+    <h4 class="mar-xs">City</h4>
+    <input type="text" name="city" value="{{city}}" placeholder="Berlin">
+  </div>
+  <div class="mar-vert-sm">
+    <h4 class="mar-xs">Homepage</h4>
+    <input type="text" name="homepage" value="{{homepage}}" placeholder="facebook.com/john.doe">
+  </div>
+  <button class="block-center mar-vert-sm btn btn-darkblue" type="submit">UPDATE</button>
+</form>
+
+<div class="text-center mar-lg">
+  <h2 class="mar-vert-sm">Wanna change your password?</h2>
+  <a class="btn btn-darkblue" href="/profile/edit/password">CHANGE PASSWORD</a>
+</div>

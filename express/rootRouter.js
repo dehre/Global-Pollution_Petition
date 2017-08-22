@@ -97,6 +97,14 @@ router.post('/profile',function(req,res){
   });
 });
 
+router.get('/profile/edit',function(req,res){
+  res.render('editUser');
+});
+
+router.post('/profile/edit',function(req,res){
+  res.send('data posted')
+});
+
 router.get('/logout',function(req,res){
   req.session = null;
   res.redirect('/register');
