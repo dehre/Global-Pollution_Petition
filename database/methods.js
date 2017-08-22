@@ -75,10 +75,14 @@ module.exports.createUserProfile = function(user_id,age,city,homepage){
   });
 }
 
-// get user's profile given his 'id'
-module.exports.getUserProfile = function(user_id){
+
+//allow user to change his personal data
+module.exports.setUserInfo = function(){}
+
+// get user's informatins (first,last,email,age,city,homepage) given his 'id'
+module.exports.getUserInfo = function(user_id){
   //search by 'user_id' from 'user_profiles' table
-  const query = 'SELECT age,city,homepage FROM user_profiles WHERE user_id = $1';
+  const query = 'SELECT first,last,email,age,city,homepage FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_id = $1';
   return db.query(query,[user_id])
   .then(function(userObj){
     return userObj.rows[0]
