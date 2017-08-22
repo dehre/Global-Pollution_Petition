@@ -99,6 +99,10 @@ module.exports.updateUserInfo = function(user_id,firstName,lastName,email,age,ci
   });
 }
 
+//allow user to change his password
+module.exports.changePassword = function(oldPsw,newPsw){
+
+}
 
 //save new signature to DB
 module.exports.createSignature = function(user_id,signature){
