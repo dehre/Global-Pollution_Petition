@@ -101,11 +101,12 @@ module.exports = function(app){
     .then(function(signers){
       //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
+      const goal = req.session.goal;
       res.render('petition',{
         first: first,
         last: last,
         signersNumber: signers.length,
-        goal: signers[0].petition_goal
+        goal: goal
       });
     })
     .catch(function(err){
@@ -167,12 +168,13 @@ module.exports = function(app){
     .then(function(signers){
       //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
+      const goal = req.session.goal;
       res.render('signers',{
         first: first,
         last: last,
         signers: signers,
         signersNumber: signers.length,
-        goal: signers[0].petition_goal
+        goal: goal
       });
     })
     .catch(function(err){
@@ -188,12 +190,13 @@ module.exports = function(app){
     .then(function(signers){
       //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
+      const goal = req.session.goal;
       res.render('signers',{
         first: first,
         last: last,
         signers: signers,
         signersNumber: signers.length,
-        goal: signers[0].petition_goal
+        goal: goal
       });
     })
     .catch(function(err){
