@@ -6,7 +6,7 @@ const {isSigned} = require('./middlewares.js');
 //methods for working with database
 const dbMethods = require('../db/methods');
 
-router.get('/petition',isSigned,function(req,res){
+router.get('/',isSigned,function(req,res){
   //retrieve number of signed people
   dbMethods.getSigners()
   .then(function(signers){
@@ -28,7 +28,7 @@ router.get('/petition',isSigned,function(req,res){
   });
 });
 
-router.post('/petition',function(req,res){
+router.post('/',function(req,res){
   const {signature} = req.body;
   const {user_id,first,last} = req.session.user;
   if(!signature){
@@ -53,7 +53,7 @@ router.post('/petition',function(req,res){
   });
 });
 
-router.get('/petition/signed',function(req,res){
+router.get('/signed',function(req,res){
   //take user's id from cookies and  grab his signature from DB
   dbMethods.getSignature(req.session.user.user_id)
   .then(function(signature){
@@ -73,7 +73,7 @@ router.get('/petition/signed',function(req,res){
   })
 });
 
-router.get('/petition/signers/:city?',function(req,res){
+router.get('/signers/:city?',function(req,res){
   //if 'city' passed to url, make specific query for those signers, otherwise retrieve them all
   let cityName;
   if(req.params.city){cityName=req.params.city.toLowerCase()}

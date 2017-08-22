@@ -19,7 +19,7 @@ middlewares(app);
 
 // set up routes
 app.use('/',rootRouter);
-app.use('/',petitionRouter);
+app.use('/petition',petitionRouter);
 
 //catch all request for unexisting routes
 app.get('*',function(req,res){
