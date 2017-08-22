@@ -162,31 +162,11 @@ module.exports = function(app){
     })
   });
 
-  app.get('/petition/signers',function(req,res){
-    //retrieve signed people's name from database and pass data to template
-    dbMethods.getSigners()
-    .then(function(signers){
-      //grab user's first and last name from cookie to populate navbar
-      const {first,last} = req.session.user;
-      const goal = req.session.goal;
-      res.render('signers',{
-        first: first,
-        last: last,
-        signers: signers,
-        signersNumber: signers.length,
-        goal: goal
-      });
-    })
-    .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: 'Error happened retrieving data from database'
-      });
-    });
-  });
-
-  app.get('/petition/signers/:city',function(req,res){
-    dbMethods.getSigners(req.params.city.toLowerCase())
+  app.get('/petition/signers/:city?',function(req,res){
+    //if 'city' passed to url, make specific query for those signers, otherwise retrieve them all
+    let cityName;
+    if(req.params.city){cityName=req.params.city.toLowerCase()}
+    dbMethods.getSigners(cityName)
     .then(function(signers){
       //grab user's first and last name from cookie to populate navbar
       const {first,last} = req.session.user;
@@ -212,7 +192,7 @@ module.exports = function(app){
     res.redirect('/register');
   });
 
-  //handle browser's requests for 'favicon.ico'
+  //handle browser's request for 'favicon.ico'
   app.get('/favicon.ico', function(req, res){
     res.redirect('/static/images/favicon.ico');
   });
