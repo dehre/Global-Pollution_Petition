@@ -76,9 +76,6 @@ module.exports.createUserProfile = function(user_id,age,city,homepage){
 }
 
 
-//allow user to change his personal data
-module.exports.setUserInfo = function(){}
-
 // get user's informatins (first,last,email,age,city,homepage) given his 'id'
 module.exports.getUserInfo = function(user_id){
   //search by 'user_id' from 'user_profiles' table
@@ -88,6 +85,12 @@ module.exports.getUserInfo = function(user_id){
     return userObj.rows[0]
   });
 }
+
+//allow user to change his personal data
+module.exports.updateUserInfo = function(firstName,lastName,email,age,city,homepage){
+  
+}
+
 
 
 //save new signature to DB

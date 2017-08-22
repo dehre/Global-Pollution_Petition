@@ -102,6 +102,25 @@ router.get('/profile/edit',function(req,res){
 });
 
 router.post('/profile/edit',function(req,res){
+  const {firstName,lastName,email,age,city,homepage} = req.body;
+  const {user_id} = req.session.user;
+  //don't allow user to leave 'firstName','lastName' and 'email' empty, otherwise render the 'editUser' template again with an error message, then exit the function
+  if(!(firstName && lastName && email)){
+    return dbMethods.getUserInfo(user_id)
+    .then(function(userProfile){
+      res.render('editUser',{
+        ...userProfile,        
+        showError: true
+      });
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: `Error happened retrieving user's personal data from database`
+      });
+    });
+  }
+
   res.send('data posted')
 });
 
