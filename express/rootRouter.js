@@ -141,6 +141,7 @@ router.post('/profile/edit/password',function(req,res){
   });
 });
 
+
 router.get('/logout',function(req,res){
   req.session = null;
   res.redirect('/register');

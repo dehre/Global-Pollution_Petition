@@ -102,4 +102,18 @@ router.get('/signers/:city?',function(req,res){
   });
 });
 
+router.get('/delete',function(req,res){
+  const {user_id} = req.session.user;
+  dbMethods.deleteSignature(user_id)
+  .then(function(){
+    res.redirect('/petition');
+  })
+  .catch(function(err){
+    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+    res.render('error',{
+      errorMessage: `Error deleting your signature`
+    });
+  });
+});
+
 module.exports = router;

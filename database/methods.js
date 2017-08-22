@@ -143,6 +143,13 @@ module.exports.getSignature = function(user_id){
   });
 }
 
+//delete user's signature
+module.exports.deleteSignature = function(user_id){
+  //set up query to delete specific signature from DB
+  const query = `DELETE FROM signatures WHERE user_id = $1 AND petition_id = 1`;
+  return db.query(query,[user_id])
+}
+
 //retrieve all people that signed the petition
 module.exports.getSigners = function(city){
   //set up query to put data into DB
