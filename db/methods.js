@@ -89,7 +89,7 @@ module.exports.getUserProfile = function(user_id){
 //save new signature to DB
 module.exports.createSignature = function(user_id,signature){
   //set up query to put data into DB
-  const query = 'INSERT INTO signatures (user_id,signature,petition_id,petition_goal) VALUES ($1,$2,1,15)';
+  const query = 'INSERT INTO signatures (user_id,signature,petition_id) VALUES ($1,$2,1)';
   return db.query(query,[user_id,signature]);
 }
 
@@ -106,7 +106,7 @@ module.exports.getSignature = function(user_id){
 //retrieve all people that signed the petition
 module.exports.getSigners = function(city){
   //set up query to put data into DB
-  let query = 'SELECT first,last, age, city, homepage, petition_goal FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id JOIN users ON signatures.user_id = users.id WHERE signatures.petition_id = 1';
+  let query = 'SELECT first,last, age, city, homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id JOIN users ON signatures.user_id = users.id WHERE signatures.petition_id = 1';
   //if city name passed as argument, retrieve signers by city
   if(city){
     query += ' AND city = $1';

@@ -38,6 +38,9 @@ CREATE TABLE signatures(
   user_id INTEGER REFERENCES users(id),
   signature TEXT NOT NULL,
   petition_id INTEGER REFERENCES petitions(id),
-  petition_goal INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- create a petition
+INSERT INTO petitions (owner_id,name,description,goal) VALUES(1,'Pollution','WorldWide Campaign against Plastic Pollution in Oceans',15);
