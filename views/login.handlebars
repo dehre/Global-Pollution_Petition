@@ -6,6 +6,8 @@
 {{> _errorMessage}}
 
 <form class="form-fields" action="/login" method="post">
+  <!-- hidden input for csrf token -->
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
   <div class="mar-vert-sm">
     <h4 class="mar-xs">Email Address</h4>
     <input type="text" name="email" placeholder="john.doe@mail.com" required>

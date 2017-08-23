@@ -28,13 +28,11 @@ module.exports.middlewares = function(app){
     next();
   });
 
-};
-
+}; //end 'module.exports'
 
 //middleware for preventing csrf attacks on <form> submissions
 const csrf = require('csurf');
 module.exports.csrfProtection = csrf();
-
 
 //if users try to sign petition that have signed already (so they try to GET'/petition'), redirect to '/signed' to show they're signature
 module.exports.isSigned = function(req,res,next){

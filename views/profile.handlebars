@@ -4,6 +4,8 @@
 </div>
 
 <form class="form-fields" action="/profile" method="post">
+  <!-- hidden input for csrf token -->
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
   <div class="mar-vert-sm">
     <h4 class="mar-xs">Age</h4>
     <input type="number" name="age" min="0" range="1" placeholder="44">
