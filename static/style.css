@@ -12,8 +12,7 @@ body {
   height: 8rem;
 }
 .navbar-item {
-  padding: .7em;
-  font-size: bold;
+  padding: 1em;
 }
 .navbar-item a {
   color: white;
@@ -136,6 +135,9 @@ body {
   .container {
     width: 75%;
     font-size: 18px;
+  }
+  .navbar-item {
+    padding: 1.5em;
   }
   .signers-list li {
     flex: 1 50%;
