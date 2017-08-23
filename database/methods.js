@@ -1,12 +1,16 @@
 const spicedPg = require('spiced-pg');
 //import useful functions for hashing passwords
 const {hashPassword,checkPassword} = require('./hashing');
-//get back data for logging into database
-// const {dbUser,dbPassword} = require('../secret.json');
 
-//setup database
-// const db = spicedPg(`postgres:${dbUser}:${dbPassword}@localhost:5432/Loris`);
-const db = spicedPg(process.env.DATABASE_URL);
+//log into database (behave differently if in development or production mode)
+let db;
+if(process.env.DATABASE_URL){
+  db = spicedPg(process.env.DATABASE_URL);
+} else {
+  //grab data for logging into database
+  const {dbUser,dbPassword} = require('../secret.json');
+  db = spicedPg(`postgres:${dbUser}:${dbPassword}@localhost:5432/Loris`);
+}
 
 //create new user inside 'users' table
 module.exports.createUser = function(firstName,lastName,email,password){
