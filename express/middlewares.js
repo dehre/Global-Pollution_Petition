@@ -2,7 +2,7 @@ const express = require('express');
 //methods for working with database
 const dbMethods = require('../database/methods');
 //get back secret for hashing cookies
-const {sessionSecret} = require('../secret.json');
+// const {sessionSecret} = require('../secret.json');
 
 //set all middlewares used inside express app
 module.exports.middlewares = function(app){
@@ -12,7 +12,7 @@ module.exports.middlewares = function(app){
   }));
   //use 'cookie-session' to provide data integrity for cookies
   app.use(require('cookie-session')({
-    secret: sessionSecret,
+    secret: 'sessionSecret',
     //make session lasting 2 weeks
     maxAge: 1000*60*60*24*14
   }));
