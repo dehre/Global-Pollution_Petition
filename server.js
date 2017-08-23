@@ -33,8 +33,8 @@ app.use(function (err, req, res, next) {
   })
 })
 
-//start listening on port 8080
-const port = 8080;
+//start listening on port 8080 (on dev environment)
+const port = process.env.PORT || 8080;
 app.listen(port,function(){
   console.log(`Server listening on port ${port}`);
 });
