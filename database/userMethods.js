@@ -12,6 +12,7 @@ if(process.env.DATABASE_URL){
   db = spicedPg(`postgres:${dbUser}:${dbPassword}@localhost:5432/Loris`);
 }
 
+
 //create new user inside 'users' table
 module.exports.createUser = function(firstName,lastName,email,password){
   //hash user's password before putting into database
@@ -63,7 +64,6 @@ module.exports.getUser = function(email,plainTextPassword){
   });
 }
 
-
 //save-update user's profile inside 'user_profiles' table
 module.exports.createUserProfile = function(user_id,age,city,homepage){
   //set optional values to NULL if not provided
@@ -73,7 +73,6 @@ module.exports.createUserProfile = function(user_id,age,city,homepage){
   const query = 'INSERT INTO user_profiles (user_id,age,city,homepage) VALUES ($1,$2,$3,$4)';
   return db.query(query,[user_id,age,city,homepage]);
 }
-
 
 // get user's informatins (first,last,email,age,city,homepage) given his 'id'
 module.exports.getUserInfo = function(user_id){
@@ -127,57 +126,5 @@ module.exports.changePassword = function(user_id,oldPsw,newPsw){
     //set up query to put data into DB
     const query = 'UPDATE users SET password=$1 WHERE id=$2';
     return db.query(query,[hash,user_id]);
-  })
-}
-
-//save new signature to DB
-module.exports.createSignature = function(user_id,signature){
-  //set up query to put data into DB
-  const query = 'INSERT INTO signatures (user_id,signature,petition_id) VALUES ($1,$2,1)';
-  return db.query(query,[user_id,signature]);
-}
-
-//grab user's signature for the petition
-module.exports.getSignature = function(user_id){
-  //set up query to retrieve specific signature from DB
-  const query = `SELECT signature FROM signatures WHERE user_id = $1 AND petition_id = 1`;
-  return db.query(query,[user_id])
-  .then(function(signatureObj){
-    return signatureObj.rows[0].signature;
-  });
-}
-
-//delete user's signature
-module.exports.deleteSignature = function(user_id){
-  //set up query to delete specific signature from DB
-  const query = `DELETE FROM signatures WHERE user_id = $1 AND petition_id = 1`;
-  return db.query(query,[user_id])
-}
-
-//retrieve all people that signed the petition
-module.exports.getSigners = function(city){
-  //set up query to put data into DB
-  let query = 'SELECT first,last, age, city, homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id JOIN users ON signatures.user_id = users.id WHERE signatures.petition_id = 1';
-  //if city name passed as argument, retrieve signers by city
-  if(city){
-    query += ' AND city = $1';
-    return db.query(query,[city])
-    .then(function(signersObj){
-      return signersObj.rows;
-    });
-  }
-  //otherwise retrieve all signers
-  return db.query(query)
-  .then(function(signersObj){
-    return signersObj.rows;
-  });
-}
-
-//set petition goal as cookie into user's browser
-module.exports.getPetitionGoal = function(){
-  const query = `SELECT goal FROM petitions WHERE id = 1`;
-  return db.query(query)
-  .then(function(goalObj){
-    return goalObj.rows[0].goal
   })
 }

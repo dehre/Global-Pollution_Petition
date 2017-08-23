@@ -3,7 +3,7 @@ const router = express.Router();
 //middleware for preventing csrf attacks on <form> submissions
 const {csrfProtection} = require('./middlewares');
 //methods for working with database
-const dbMethods = require('../database/methods');
+const dbMethods = require('../database');
 
 //  // //  // //  // //  // //  // //  //
 // ALL PATHS HERE ARE APPENDED TO '/' //

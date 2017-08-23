@@ -6,7 +6,7 @@ const {csrfProtection} = require('./middlewares');
 //middlewares to apply to specific routes
 const {isSigned} = require('./middlewares.js');
 //methods for working with database
-const dbMethods = require('../database/methods');
+const dbMethods = require('../database');
 
 //  // //  // //  // //  // //  // //  // //  //
 // ALL PATHS HERE ARE APPENDED TO '/petition' //

@@ -155,7 +155,8 @@ li {
 }
 .text-link {
   color: blue;
-  text-decoration: underline;
+  font-weight: bold;
+  font-style: italic;
 }
 .rounded {
   border-radius: 10px;

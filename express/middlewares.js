@@ -1,6 +1,6 @@
 const express = require('express');
 //methods for working with database
-const dbMethods = require('../database/methods');
+const dbMethods = require('../database');
 //create secret for hashing cookies --> so cannot be hacked on client side
 let sessionSecret;
 process.env.SESSION_SECRET ? sessionSecret = process.env.SESSION_SECRET : sessionSecret = 'secret';
