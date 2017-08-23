@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+//middleware for preventing csrf attacks on <form> submissions
+const {csrfProtection} = require('./middlewares');
 
 //middlewares to apply to specific routes
 const {isSigned} = require('./middlewares.js');
@@ -10,42 +12,22 @@ const dbMethods = require('../database/methods');
 // ALL PATHS HERE ARE APPENDED TO '/petition' //
 //  // //  // //  // //  // //  // //  // //  //
 
-router.get('/',isSigned,function(req,res){
-  //grab user's first and last name from cookie to populate navbar, goal to populate progress-bar
-  const {first,last} = req.session.user;
-  const goal = req.session.goal;
-  //retrieve number of signed people
-  dbMethods.getSigners()
-  .then(function(signers){
-    res.render('petition',{
-      first: first,
-      last: last,
-      signersNumber: signers.length,
-      goal: goal
-    });
-  })
-  .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: 'Error happened retrieving data from database'
-    });
-  });
-});
-
-router.post('/',function(req,res){
-  const {signature} = req.body;
-  const {user_id,first,last} = req.session.user;
-  const goal = req.session.goal;
-  if(!signature){
-    //if signature (<canvas>) is not filled, just render the 'petition' template again with an error message, then exit the function
-    return dbMethods.getSigners()
+router.route('/')
+  //acts as a middleware to all HTTP requests for '/petition'
+  .all(csrfProtection)
+  .get(isSigned,function(req,res){
+    //grab user's first and last name from cookie to populate navbar, goal to populate progress-bar
+    const {first,last} = req.session.user;
+    const goal = req.session.goal;
+    //retrieve number of signed people
+    dbMethods.getSigners()
     .then(function(signers){
       res.render('petition',{
         first: first,
         last: last,
         signersNumber: signers.length,
         goal: goal,
-        showError: true
+        csrfToken: req.csrfToken()
       });
     })
     .catch(function(err){
@@ -54,20 +36,45 @@ router.post('/',function(req,res){
         errorMessage: 'Error happened retrieving data from database'
       });
     });
-  }
-  //if all <input> fields filled,save signature to database
-  dbMethods.createSignature(user_id,signature)
-  .then(function(){
-    //redirect user away after saving signature
-    res.redirect('/petition/signed');
   })
-  .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: 'Error happened saving your signature into database'
+  .post(function(req,res){
+    const {signature} = req.body;
+    const {user_id,first,last} = req.session.user;
+    const goal = req.session.goal;
+    if(!signature){
+      //if signature (<canvas>) is not filled, just render the 'petition' template again with an error message, then exit the function
+      return dbMethods.getSigners()
+      .then(function(signers){
+        res.render('petition',{
+          first: first,
+          last: last,
+          signersNumber: signers.length,
+          goal: goal,
+          csrfToken: req.csrfToken(),
+          showError: true
+        });
+      })
+      .catch(function(err){
+        console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+        res.render('error',{
+          errorMessage: 'Error happened retrieving data from database'
+        });
+      });
+    }
+    //if all <input> fields filled,save signature to database
+    dbMethods.createSignature(user_id,signature)
+    .then(function(){
+      //redirect user away after saving signature
+      res.redirect('/petition/signed');
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: 'Error happened saving your signature into database'
+      });
     });
   });
-});
+
 
 router.get('/signed',function(req,res){
   //take user's id from cookies and  grab his signature from DB
@@ -88,6 +95,7 @@ router.get('/signed',function(req,res){
     });
   })
 });
+
 
 router.get('/signers/:city?',function(req,res){
   //if 'city' passed to url, make specific query for those signers, otherwise retrieve them all
@@ -114,7 +122,8 @@ router.get('/signers/:city?',function(req,res){
   });
 });
 
-router.get('/delete',function(req,res){
+
+router.get('/signed/delete',function(req,res){
   const {user_id} = req.session.user;
   dbMethods.deleteSignature(user_id)
   .then(function(){
@@ -127,5 +136,6 @@ router.get('/delete',function(req,res){
     });
   });
 });
+
 
 module.exports = router;

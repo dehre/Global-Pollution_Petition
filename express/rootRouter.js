@@ -12,13 +12,11 @@ const dbMethods = require('../database/methods');
 router.route('/register')
   //acts as a middleware to all HTTP requests for '/register'
   .all(csrfProtection)
-
   .get(function(req,res){
     res.render('register',{
       csrfToken: req.csrfToken()
     });
   })
-
   .post(function(req,res){
     const {firstName,lastName,email, password} = req.body;
     if(!(firstName && lastName && email && password)){
@@ -50,15 +48,12 @@ router.route('/register')
 
 
 router.route('/login')
-
   .all(csrfProtection)
-
   .get(function(req,res){
     res.render('login',{
       csrfToken: req.csrfToken()
     });
   })
-
   .post(function(req,res){
     const {email, password} = req.body;
     if(!(email && password)){
@@ -89,15 +84,12 @@ router.route('/login')
 
 
 router.route('/profile')
-
   .all(csrfProtection)
-
   .get(function(req,res){
     res.render('profile',{
       csrfToken: req.csrfToken()
     });
   })
-
   .post(function(req,res){
     const {age,city,homepage} = req.body;
     const {user_id} = req.session.user;
@@ -115,9 +107,7 @@ router.route('/profile')
 
 
 router.route('/profile/edit')
-
   .all(csrfProtection)
-
   .get(function(req,res){
     //grab existing user's data, then render 'editUser' template using them
     const {user_id} = req.session.user;
@@ -135,7 +125,6 @@ router.route('/profile/edit')
       });
     });
   })
-
   .post(function(req,res){
     const {firstName,lastName,email,age,city,homepage} = req.body;
     const {user_id} = req.session.user;
@@ -154,15 +143,12 @@ router.route('/profile/edit')
 
 
 router.route('/profile/edit/password')
-
   .all(csrfProtection)
-
   .get(function(req,res){
     res.render('editUserPassword',{
       csrfToken: req.csrfToken()
     });
   })
-
   .post(function(req,res){
     const {oldPsw,newPsw,newPswAgain} = req.body;
     const {user_id} = req.session.user;
