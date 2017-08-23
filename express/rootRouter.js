@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 //middleware for preventing csrf attacks on <form> submissions
-const csrf = require('csurf');
-const csrfProtection = csrf();
+const {csrfProtection} = require('./middlewares');
 //methods for working with database
 const dbMethods = require('../database/methods');
 
