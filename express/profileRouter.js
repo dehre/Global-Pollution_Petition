@@ -56,7 +56,10 @@ router.route('/edit')
     const {user_id} = req.session.user;
     //update user info inside database
     dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city.toLowerCase(),homepage)
-    .then(function(){
+    .then(function(changedUser){
+      //update cookies
+      req.session.user.first = changedUser.first;
+      req.session.user.last = changedUser.last;
       res.redirect('/petition');
     })
     .catch(function(err){

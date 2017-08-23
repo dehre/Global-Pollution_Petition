@@ -88,15 +88,18 @@ module.exports.getUserInfo = function(user_id){
 //allow user to change his personal data
 module.exports.updateUserInfo = function(user_id,firstName,lastName,email,age,city,homepage){
   //update data into both 'users' and 'user_profiles' table
-  const query = 'UPDATE users SET first=$2, last=$3,email=$4 WHERE id=$1';
-  return db.query(query,[user_id,firstName,lastName,email])
+  //set optional values to NULL if not provided
+  if(!age){age=null};
+  if(!city){city=null};
+  if(!homepage){homepage=null};
+  const query = 'UPDATE user_profiles SET age=$2, city=$3,homepage=$4 WHERE user_id=$1';
+  return db.query(query,[user_id,age,city,homepage])
   .then(function(){
-    //set optional values to NULL if not provided
-    if(!age){age=null};
-    if(!city){city=null};
-    if(!homepage){homepage=null};
-    const query = 'UPDATE user_profiles SET age=$2, city=$3,homepage=$4 WHERE user_id=$1';
-    return db.query(query,[user_id,age,city,homepage])
+    const query = 'UPDATE users SET first=$2, last=$3,email=$4 WHERE id=$1 RETURNING first,last';
+    return db.query(query,[user_id,firstName,lastName,email])
+  })
+  .then(function(firstLastObj){
+    return firstLastObj.rows[0]
   });
 }
 
