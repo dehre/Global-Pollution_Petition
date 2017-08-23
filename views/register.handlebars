@@ -6,6 +6,8 @@
 {{> _errorMessage}}
 
 <form class="form-fields" action="/register" method="post">
+  <!-- hidden input for csrf token -->
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
   <div class="mar-vert-sm">
     <h4 class="mar-xs">First Name (required)</h4>
     <input type="text" name="firstName" placeholder="John" required>

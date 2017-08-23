@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
+//middleware for preventing csrf attacks on <form> submissions
+const csrf = require('csurf');
+const csrfProtection = csrf();
 //methods for working with database
 const dbMethods = require('../database/methods');
 
@@ -8,11 +10,13 @@ const dbMethods = require('../database/methods');
 // ALL PATHS HERE ARE APPENDED TO '/' //
 //  // //  // //  // //  // //  // // //
 
-router.get('/register',function(req,res){
-  res.render('register');
+router.get('/register',csrfProtection,function(req,res){
+  res.render('register',{
+    csrfToken: req.csrfToken()
+  });
 });
 
-router.post('/register',function(req,res){
+router.post('/register',csrfProtection,function(req,res){
   const {firstName,lastName,email, password} = req.body;
   if(!(firstName && lastName && email && password)){
     //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
