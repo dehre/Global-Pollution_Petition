@@ -25,6 +25,14 @@ app.get('*',function(req,res){
   res.redirect('/petition');
 });
 
+//handle 'Express' errors
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).render('error',{
+    errorMessage: 'Server error, something broke!'
+  })
+})
+
 //start listening on port 8080
 const port = 8080;
 app.listen(port,function(){
