@@ -16,8 +16,8 @@ router.route('/')
   //acts as a middleware to all HTTP requests for '/petition'
   .all(csrfProtection)
   .get(isSigned,function(req,res){
-    //grab user's first and last name from cookie to populate navbar, goal to populate progress-bar
     const {first,last} = req.session.user;
+    //grab goal to populate progress-bar
     const goal = req.session.goal;
     //retrieve number of signed people
     dbMethods.getSigners()
@@ -80,11 +80,9 @@ router.get('/signed',function(req,res){
   //take user's id from cookies and  grab his signature from DB
   dbMethods.getSignature(req.session.user.user_id)
   .then(function(signature){
-    const {first,last} = req.session.user;
     //pass the signature I got back to 'signed' template
     res.render('signed',{
-      first: first,
-      last: last,
+      first: req.session.user.first,
       signature:signature
     });
   })
@@ -103,12 +101,9 @@ router.get('/signers/:city?',function(req,res){
   if(req.params.city){cityName=req.params.city.toLowerCase()}
   dbMethods.getSigners(cityName)
   .then(function(signers){
-    //grab user's first and last name from cookie to populate navbar
-    const {first,last} = req.session.user;
     const goal = req.session.goal;
     res.render('signers',{
-      first: first,
-      last: last,
+      first: req.session.user.first,
       signers: signers,
       signersNumber: signers.length,
       goal: goal

@@ -72,6 +72,7 @@ router.route('/edit/password')
   .all(csrfProtection)
   .get(function(req,res){
     res.render('editUserPassword',{
+      first: req.session.user.first,
       csrfToken: req.csrfToken()
     });
   })
@@ -81,6 +82,7 @@ router.route('/edit/password')
     if(newPsw !== newPswAgain){
       //if new passwords don't match, just render the 'editUserPassword' template again with an error message, then exit the function
       return res.render('editUserPassword',{
+        first: req.session.user.first,
         showError: true,
         csrfToken: req.csrfToken()
       });
