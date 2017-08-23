@@ -35,7 +35,7 @@ router.route('/')
 router.route('/edit')
   .all(csrfProtection)
   .get(function(req,res){
-    //grab existing user's data, then render 'editUser' template using them
+    //grab existing user's data, then prepopulate fields inside 'editUser' template
     const {user_id} = req.session.user;
     dbMethods.getUserInfo(user_id)
     .then(function(userProfile){
@@ -55,7 +55,7 @@ router.route('/edit')
     const {firstName,lastName,email,age,city,homepage} = req.body;
     const {user_id} = req.session.user;
     //update user info inside database
-    dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city,homepage)
+    dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city.toLowerCase(),homepage)
     .then(function(){
       res.redirect('/petition');
     })
