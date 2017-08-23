@@ -23,7 +23,10 @@ router.route('/register')
     const {firstName,lastName,email, password} = req.body;
     if(!(firstName && lastName && email && password)){
       //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
-      return res.render('register',{showError: true});
+      return res.render('register',{
+        showError: true,
+        csrfToken: req.csrfToken()
+      });
     }
     //if all <input> fields filled,save new user to database
     dbMethods.createUser(firstName,lastName,email,password)
@@ -60,7 +63,10 @@ router.route('/login')
     const {email, password} = req.body;
     if(!(email && password)){
       //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
-      return res.render('login',{showError: true});
+      return res.render('login',{
+        showError: true,
+        csrfToken: req.csrfToken()
+      });
     }
     //if all <input> fields filled,retrieve person database
     dbMethods.getUser(email,password)
@@ -80,6 +86,7 @@ router.route('/login')
       res.render('login',{showError:true});
     });
   });
+
 
 router.route('/profile')
 
@@ -106,60 +113,77 @@ router.route('/profile')
     });
   });
 
-router.get('/profile/edit',function(req,res){
-  //grab existing user's data, then render 'editUser' template using them
-  const {user_id} = req.session.user;
-  dbMethods.getUserInfo(user_id)
-  .then(function(userProfile){
-    res.render('editUser',userProfile);
+
+router.route('/profile/edit')
+
+  .all(csrfProtection)
+
+  .get(function(req,res){
+    //grab existing user's data, then render 'editUser' template using them
+    const {user_id} = req.session.user;
+    dbMethods.getUserInfo(user_id)
+    .then(function(userProfile){
+      res.render('editUser',{
+        ...userProfile,
+        csrfToken: req.csrfToken()
+      });
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: `Error happened retrieving user's personal data from database`
+      });
+    });
   })
-  .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: `Error happened retrieving user's personal data from database`
+
+  .post(function(req,res){
+    const {firstName,lastName,email,age,city,homepage} = req.body;
+    const {user_id} = req.session.user;
+    //update user info inside database
+    dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city,homepage)
+    .then(function(){
+      res.redirect('/petition');
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: `Error happened updating user's personal info into database`
+      });
     });
   });
-});
 
-router.post('/profile/edit',function(req,res){
-  const {firstName,lastName,email,age,city,homepage} = req.body;
-  const {user_id} = req.session.user;
-  //update user info inside database
-  dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city,homepage)
-  .then(function(){
-    res.redirect('/petition');
+
+router.route('/profile/edit/password')
+
+  .all(csrfProtection)
+
+  .get(function(req,res){
+    res.render('editUserPassword',{
+      csrfToken: req.csrfToken()
+    });
   })
-  .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: `Error happened updating user's personal info into database`
+
+  .post(function(req,res){
+    const {oldPsw,newPsw,newPswAgain} = req.body;
+    const {user_id} = req.session.user;
+    if(newPsw !== newPswAgain){
+      //if new passwords don't match, just render the 'editUserPassword' template again with an error message, then exit the function
+      return res.render('editUserPassword',{
+        showError: true,
+        csrfToken: req.csrfToken()
+      });
+    }
+    dbMethods.changePassword(user_id,oldPsw,newPsw)
+    .then(function(pass){
+      res.redirect('/petition');
+    })
+    .catch(function(err){
+      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+      res.render('error',{
+        errorMessage: `Error happened updating password`
+      });
     });
   });
-});
-
-
-router.get('/profile/edit/password',function(req,res){
-  res.render('editUserPassword');
-});
-
-router.post('/profile/edit/password',function(req,res){
-  const {oldPsw,newPsw,newPswAgain} = req.body;
-  const {user_id} = req.session.user;
-  if(newPsw !== newPswAgain){
-    //if new passwords don't match, just render the 'editUserPassword' template again with an error message, then exit the function
-    return res.render('editUserPassword',{showError: true});
-  }
-  dbMethods.changePassword(user_id,oldPsw,newPsw)
-  .then(function(pass){
-    res.redirect('/petition');
-  })
-  .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: `Error happened updating password`
-    });
-  });
-});
 
 
 router.get('/logout',function(req,res){
