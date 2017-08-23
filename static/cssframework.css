@@ -150,6 +150,9 @@ li {
 .font-30 {
   font-size: 3em;
 }
+.text-capitalize {
+  text-transform: capitalize;
+}
 .text-error {
   color: red;
 }

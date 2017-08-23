@@ -2,18 +2,18 @@
   <h1>Save our Ocean, save yourself. End plastic pollution now!</h1>
 </div>
 
-{{> _progressBar}}
-
 <div class="mar-vert-md font-13 text-center">
   <h4>The United Nations has been responsible for negotiations in the realm of environmental sustainability and development. For example, the UN Convention on the Environment and Development in Rio De Janeiro in 1992 resulted in biodiversity and climate change negotiations. It established the Convention on Biological Diversity (CBD) and the United Nations Framework Convention on Climate Change (UNFCCC). In addition, countries adopted “Agenda 21,” which promotes sustainable development while protecting the Earth’s natural resources.</h4>
 </div>
 
-<ul class="signers-list font-13 box-90 block-center shadow">
+{{> _progressBar}}
+
+<ul class="signers-list mar-vert-lg font-13 box-90 block-center shadow">
   {{#each signers}}
   <li "text-center">
     &#9997; <a {{#if homepage}}href="https://{{homepage}}" class="text-link"{{/if}}>{{first}} {{last}}</a>
     {{#if age}}({{age}}){{/if}}
-    <a href="/petition/signers/{{city}}" class="text-link" style="text-transform:capitalize">{{city}}</a>
+    <a href="/petition/signers/{{city}}" class="text-capitalize text-link">{{city}}</a>
   </li>
   {{/each}}
 </ul>
