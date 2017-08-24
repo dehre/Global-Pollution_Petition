@@ -27,8 +27,10 @@ router.route('/')
         signersNumber: signers.length,
         goal: goal,
         csrfToken: req.csrfToken(),
+        showError: req.session.errorMessage,
         showMessage: req.session.successMessage
       });
+      req.session.errorMessage = null;
       req.session.successMessage = null;
     })
     .catch(function(err){
@@ -43,29 +45,12 @@ router.route('/')
     const {user_id,first,last} = req.session.user;
     const goal = req.session.goal;
     if(!signature){
-      //if signature (<canvas>) is not filled, just render the 'petition' template again with an error message, then exit the function
-      return dbMethods.getSigners()
-      .then(function(signers){
-        res.render('petition',{
-          first: first,
-          last: last,
-          signersNumber: signers.length,
-          goal: goal,
-          csrfToken: req.csrfToken(),
-          showError: true
-        });
-      })
-      .catch(function(err){
-        console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-        res.render('error',{
-          errorMessage: 'Error happened retrieving data from database'
-        });
-      });
+      req.session.errorMessage = 'Signature was not filled';
+      return res.redirect('/petition');
     }
-    //if all <input> fields filled,save signature to database
+    //save signature to database
     dbMethods.createSignature(user_id,signature)
     .then(function(){
-      //redirect user away after saving signature
       res.redirect('/petition/signed');
     })
     .catch(function(err){
