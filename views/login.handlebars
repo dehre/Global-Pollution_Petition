@@ -4,6 +4,7 @@
 </div>
 
 {{> _errorMessage}}
+{{> _punishMessage}}
 
 <form class="form-fields" action="/login" method="post">
   <!-- hidden input for csrf token -->
@@ -16,7 +17,7 @@
     <h4 class="mar-xs">Password</h4>
     <input type="password" name="password" placeholder="password">
   </div>
-<button class="block-center mar-vert-sm btn btn-darkblue" type="submit">LOG IN</button>
+<button class="block-center mar-vert-sm btn btn-darkblue" type="submit" {{#if showPunishTime}}disabled{{/if}}>LOG IN</button>
 </form>
 
 <div class="text-center mar-lg">

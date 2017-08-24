@@ -52,9 +52,11 @@ router.route('/login')
   .get(function(req,res){
     res.render('login',{
       csrfToken: req.csrfToken(),
-      showError: req.session.errorMessage
+      showError: req.session.errorMessage,
+      showPunishTime: req.session.punishTime
     });
     req.session.errorMessage = null;
+    req.session.punishTime = null;
   })
   .post(function(req,res){
     const {email, password} = req.body;
@@ -75,11 +77,21 @@ router.route('/login')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
+
       //take count of bad logins
       redisCache.get('wrongAttempt')
       .then(function(wrongAttemptStr){
-        const wrongAttempt = parseInt(wrongAttemptStr) || 0;
-        console.log('wrongAttempt',wrongAttempt);
+        const wrongAttempt = parseInt(wrongAttemptStr) || 1;
+        if(wrongAttempt>=3){
+          //if user tries bad login more than 3 times, give him punish time of 90sec, 180sec, 360 sec and so on
+          redisCache.get('punishTime')
+          .then(function(timeStr){
+            const time = parseInt(timeStr) || 10;
+            req.session.punishTime = `You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`;
+            console.log(`You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`);
+            return redisCache.setex('punishTime',time,JSON.stringify(time*2));
+          })
+        }
         return redisCache.setex('wrongAttempt',15,JSON.stringify(wrongAttempt+1))
       })
 
