@@ -49,7 +49,7 @@ function getPostreSQLSigners(){
 }
 
 //retrieve all people that signed the petition
-module.exports.getSigners = function(){
+module.exports.getSigners = function(city){
   //first try to grab data from Redis
   return redisCache.get('signers')
   .then(function(signers){
@@ -65,6 +65,13 @@ module.exports.getSigners = function(){
         return signers;
       })
     })
+  })
+  .then(function(allSigners){
+    //filter signers by city if needed
+    if(city){
+      return allSigners.filter(signer=>signer.city===city)
+    }
+    return allSigners
   })
 }
 
