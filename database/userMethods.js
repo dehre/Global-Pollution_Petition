@@ -1,6 +1,7 @@
 const spicedPg = require('spiced-pg');
 //import useful functions for hashing passwords
 const {hashPassword,checkPassword} = require('./hashing');
+const redisCache = require('./redisCache');
 
 //log into database (behave differently if in development or production mode)
 let db;
@@ -99,6 +100,13 @@ module.exports.updateUserInfo = function(user_id,firstName,lastName,email,age,ci
   })
   .then(function(firstLastObj){
     return firstLastObj.rows[0]
+  })
+  .then(function(firstLast){
+    //clear Redis cache, and keep first-last name passed
+    return redisCache.set('signers','')
+    .then(function(){
+      return firstLast
+    })
   });
 }
 

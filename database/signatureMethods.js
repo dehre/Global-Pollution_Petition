@@ -18,7 +18,11 @@ if(process.env.DATABASE_URL){
 module.exports.createSignature = function(user_id,signature){
   //set up query to put data into DB
   const query = 'INSERT INTO signatures (user_id,signature,petition_id) VALUES ($1,$2,1)';
-  return db.query(query,[user_id,signature]);
+  return db.query(query,[user_id,signature])
+  .then(function(){
+    //clear Redis cache
+    return redisCache.set('signers','')
+  });
 }
 
 //grab user's signature for the petition
@@ -36,6 +40,10 @@ module.exports.deleteSignature = function(user_id){
   //set up query to delete specific signature from DB
   const query = `DELETE FROM signatures WHERE user_id = $1 AND petition_id = 1`;
   return db.query(query,[user_id])
+  .then(function(){
+    //clear Redis cache
+    return redisCache.set('signers','')
+  });
 }
 
 //get signers from PostgreSQL
@@ -83,13 +91,3 @@ module.exports.getPetitionGoal = function(){
     return goalObj.rows[0].goal
   })
 }
-
-
-// //if city name passed as argument, retrieve signers by city
-// if(city){
-//   query += ' AND city = $1';
-//   return db.query(query,[city])
-//   .then(function(signersObj){
-//     return signersObj.rows;
-//   });
-// }
