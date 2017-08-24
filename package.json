@@ -28,7 +28,7 @@
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.1",
-    "redis": "^2.6.2",
+    "redis": "^2.8.0",
     "spiced-pg": "github:spicedacademy/spiced-pg"
   }
 }
