@@ -41,8 +41,10 @@ router.route('/edit')
     .then(function(userProfile){
       res.render('editUser',{
         ...userProfile,
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        showError: req.session.errorMessage
       });
+      req.session.errorMessage = null;
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
@@ -54,6 +56,10 @@ router.route('/edit')
   .post(function(req,res){
     const {firstName,lastName,email,age,city,homepage} = req.body;
     const {user_id} = req.session.user;
+    if(!(firstName && lastName && email)){
+      req.session.errorMessage = 'First Name, Last Name and Email fields are required';
+      return res.redirect('/profile/edit');
+    }
     //update user info inside database
     dbMethods.updateUserInfo(user_id,firstName,lastName,email,age,city.toLowerCase(),homepage)
     .then(function(changedUser){
@@ -76,19 +82,17 @@ router.route('/edit/password')
   .get(function(req,res){
     res.render('editUserPassword',{
       first: req.session.user.first,
-      csrfToken: req.csrfToken()
+      csrfToken: req.csrfToken(),
+      showError: req.session.errorMessage
     });
+    req.session.errorMessage = null;
   })
   .post(function(req,res){
     const {oldPsw,newPsw,newPswAgain} = req.body;
     const {user_id} = req.session.user;
     if(newPsw !== newPswAgain){
-      //if new passwords don't match, just render the 'editUserPassword' template again with an error message, then exit the function
-      return res.render('editUserPassword',{
-        first: req.session.user.first,
-        showError: true,
-        csrfToken: req.csrfToken()
-      });
+      req.session.errorMessage = "New passwords weren't equal";
+      return res.redirect('/profile/edit/password');
     }
     dbMethods.changePassword(user_id,oldPsw,newPsw)
     .then(function(pass){
@@ -96,9 +100,8 @@ router.route('/edit/password')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: `Error happened updating password`
-      });
+      req.session.errorMessage = "Your old password wasn't right";
+      return res.redirect('/profile/edit');
     });
   });
 
