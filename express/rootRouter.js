@@ -77,12 +77,10 @@ router.route('/login')
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       //take count of bad logins
       redisCache.get('wrongAttempt')
-      .then(function(wrongAttempt){
+      .then(function(wrongAttemptStr){
+        const wrongAttempt = parseInt(wrongAttemptStr) || 0;
         console.log('wrongAttempt',wrongAttempt);
-        if(wrongAttempt){
-          return redisCache.setex('wrongAttempt',15,parseInt(wrongAttempt)+1)
-        }
-        return redisCache.setex('wrongAttempt',15,1);
+        return redisCache.setex('wrongAttempt',15,JSON.stringify(wrongAttempt+1))
       })
 
       req.session.errorMessage = 'Incorrect credentials. Please try again'
