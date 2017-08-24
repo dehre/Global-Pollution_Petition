@@ -13,7 +13,7 @@ module.exports = function(req,res){
       //if user tries bad login more than 3 times, give him punish time of 90sec, 180sec, 360 sec and so on
       return redisCache.get('punishTime')
       .then(function(timeStr){
-        return parseInt(timeStr) || 90;
+        return parseInt(timeStr) || 9;
       })
       .then(function(time){
         req.session.punishTime = `You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`;

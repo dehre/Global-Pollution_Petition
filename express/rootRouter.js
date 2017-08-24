@@ -4,6 +4,7 @@ const router = express.Router();
 const {csrfProtection} = require('./middlewares');
 //methods for working with database
 const dbMethods = require('../database');
+const redisCache = require('../database/redisCache');
 const cacheSecurityForm = require('./cacheSecurityForm');
 
 //  // //  // //  // //  // //  // //  //
@@ -57,14 +58,19 @@ router.route('/login')
     req.session.punishTime = null;
   })
   .post(function(req,res){
-    //global reference to 'request' object
-    const request = req;
-    const {email, password} = req.body;
-    if(!(email && password)){
-      req.session.errorMessage = 'All fields are required when logging in'
-      return res.redirect('/login');
-    }
-    dbMethods.getUser(email,password)
+    redisCache.get('punishTime')
+    .then(function(time){
+      if(time){throw 'Need to wait punish time before trying again'}
+      return;
+    })
+    .then(function(){
+      const {email, password} = req.body;
+      if(!(email && password)){
+        req.session.errorMessage = 'All fields are required when logging in'
+        return res.redirect('/login');
+      }
+      return dbMethods.getUser(email,password)
+    })
     .then(function(result){
       //set 'id','firstName','lastName' of logged in user as cookies on user's browser
       req.session.user = result;
