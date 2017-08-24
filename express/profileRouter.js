@@ -49,7 +49,7 @@ router.route('/edit')
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       res.render('error',{
-        errorMessage: `Error happened retrieving user's personal data from database`
+        errorMessage: `Error happened retrieving your data from database`
       });
     });
   })
@@ -70,9 +70,8 @@ router.route('/edit')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: `Error happened updating user's personal info into database`
-      });
+      req.session.errorMessage = 'Sorry something went wrong. Please try again';
+      return res.redirect('/profile/edit');
     });
   });
 

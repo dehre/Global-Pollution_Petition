@@ -10,7 +10,6 @@ const dbMethods = require('../database');
 //  // //  // //  // //  // //  // // //
 
 router.route('/register')
-  //acts as a middleware to all HTTP requests for '/register'
   .all(csrfProtection)
   .get(function(req,res){
     res.render('register',{
@@ -39,9 +38,8 @@ router.route('/register')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: 'A user with this email exists already'
-      });
+      req.session.errorMessage = 'A user with this email already exists'
+      return res.redirect('/register');
     });
   });
 
@@ -61,7 +59,6 @@ router.route('/login')
       req.session.errorMessage = 'All fields are required when logging in'
       return res.redirect('/login');
     }
-    //if all <input> fields filled,retrieve person database
     dbMethods.getUser(email,password)
     .then(function(result){
       //set 'id','firstName','lastName' of logged in user as cookies on user's browser
@@ -75,8 +72,8 @@ router.route('/login')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      //redirect users to 'login' page with error message
-      res.render('login',{showError:true});
+      req.session.errorMessage = 'Something went wrong. Please try again'
+      return res.redirect('/login');
     });
   });
 

@@ -13,7 +13,6 @@ const dbMethods = require('../database');
 //  // //  // //  // //  // //  // //  // //  //
 
 router.route('/')
-  //acts as a middleware to all HTTP requests for '/petition'
   .all(csrfProtection)
   .get(isSigned,function(req,res){
     const {first,last} = req.session.user;
