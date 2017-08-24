@@ -1,6 +1,7 @@
 const spicedPg = require('spiced-pg');
 //import useful functions for hashing passwords
 const {hashPassword,checkPassword} = require('./hashing');
+const redisCache = require('./redisCache');
 
 //log into database (behave differently if in development or production mode)
 let db;

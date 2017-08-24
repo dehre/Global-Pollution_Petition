@@ -5,16 +5,6 @@ const {middlewares:{middlewares},rootRouter,profileRouter,petitionRouter} = requ
 //create express application
 const app = express();
 
-//set up Redis database as cache
-const redis = require('redis');
-const client = redis.createClient({
-  host: 'localhost',
-  port: 6379
-});
-client.on('error',function(err){
-  console.log('Redis error:',err);
-});
-
 //set up templating engine
 app.engine('handlebars', hb({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
