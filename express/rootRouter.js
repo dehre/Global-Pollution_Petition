@@ -22,8 +22,7 @@ router.route('/register')
   .post(function(req,res){
     const {firstName,lastName,email, password} = req.body;
     if(!(firstName && lastName && email && password)){
-      //if not all <input> filled, just render the 'register' template again with error message, then exit the function
-      req.session.errorMessage = 'All fields are required!'
+      req.session.errorMessage = 'All fields are required when registering'
       return res.redirect('/register');
     }
     //save new user to database
@@ -51,17 +50,16 @@ router.route('/login')
   .all(csrfProtection)
   .get(function(req,res){
     res.render('login',{
-      csrfToken: req.csrfToken()
+      csrfToken: req.csrfToken(),
+      showError: req.session.errorMessage
     });
+    req.session.errorMessage = null;
   })
   .post(function(req,res){
     const {email, password} = req.body;
     if(!(email && password)){
-      //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
-      return res.render('login',{
-        showError: true,
-        csrfToken: req.csrfToken()
-      });
+      req.session.errorMessage = 'All fields are required when logging in'
+      return res.redirect('/login');
     }
     //if all <input> fields filled,retrieve person database
     dbMethods.getUser(email,password)
