@@ -10,7 +10,7 @@ client.on('error',function(err){
 
 //promisify redis functions
 module.exports = {
-  get: function(name,callback){
+  get: function(name){
     return new Promise(function(resolve,reject){
       client.get(name, function(err, data) {
         if(err){
@@ -20,7 +20,7 @@ module.exports = {
       })
     })
   },
-  set: function(name,value,callback){
+  set: function(name,value){
     return new Promise(function(resolve,reject){
       client.set(name,value, function(err, data) {
         if(err){
@@ -30,7 +30,7 @@ module.exports = {
       })
     })
   },
-  setex: function(name,time,value,callback){
+  setex: function(name,time,value){
     return new Promise(function(resolve,reject){
       client.setex(name,time,value, function(err, data) {
         if(err){

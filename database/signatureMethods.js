@@ -38,23 +38,34 @@ module.exports.deleteSignature = function(user_id){
   return db.query(query,[user_id])
 }
 
-//retrieve all people that signed the petition
-module.exports.getSigners = function(city){
-  //set up query to put data into DB
+//get signers from PostgreSQL
+function getPostreSQLSigners(){
+  //set up query to grab signers from DB
   let query = 'SELECT first,last, age, city, homepage FROM signatures LEFT OUTER JOIN user_profiles ON signatures.user_id = user_profiles.user_id JOIN users ON signatures.user_id = users.id WHERE signatures.petition_id = 1';
-  //if city name passed as argument, retrieve signers by city
-  if(city){
-    query += ' AND city = $1';
-    return db.query(query,[city])
-    .then(function(signersObj){
-      return signersObj.rows;
-    });
-  }
-  //otherwise retrieve all signers
   return db.query(query)
   .then(function(signersObj){
     return signersObj.rows;
   });
+}
+
+//retrieve all people that signed the petition
+module.exports.getSigners = function(){
+  //first try to grab data from Redis
+  return redisCache.get('signers')
+  .then(function(signers){
+    //if signers found inside Redis cache, return them
+    if(signers){return JSON.parse(signers)}
+    //otherwise grab signers from PostgreSQL
+    return getPostreSQLSigners()
+    .then(function(signers){
+      //save signers into Redis as JSON
+      const jsonSigners = JSON.stringify(signers);
+      return redisCache.setex('signers',60*60,jsonSigners)
+      .then(function(){
+        return signers;
+      })
+    })
+  })
 }
 
 //set petition goal as cookie into user's browser
@@ -65,3 +76,13 @@ module.exports.getPetitionGoal = function(){
     return goalObj.rows[0].goal
   })
 }
+
+
+// //if city name passed as argument, retrieve signers by city
+// if(city){
+//   query += ' AND city = $1';
+//   return db.query(query,[city])
+//   .then(function(signersObj){
+//     return signersObj.rows;
+//   });
+// }
