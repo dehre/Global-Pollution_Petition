@@ -4,6 +4,9 @@ const router = express.Router();
 const {csrfProtection} = require('./middlewares');
 //methods for working with database
 const dbMethods = require('../database');
+//use Redis cache for preventing hack attacks
+const redisCache = require('../database/redisCache');
+
 
 //  // //  // //  // //  // //  // //  //
 // ALL PATHS HERE ARE APPENDED TO '/' //
@@ -72,7 +75,17 @@ router.route('/login')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      req.session.errorMessage = 'Something went wrong. Please try again'
+      //take count of bad logins
+      redisCache.get('wrongAttempt')
+      .then(function(wrongAttempt){
+        console.log('wrongAttempt',wrongAttempt);
+        if(wrongAttempt){
+          return redisCache.setex('wrongAttempt',15,parseInt(wrongAttempt)+1)
+        }
+        return redisCache.setex('wrongAttempt',15,1);
+      })
+
+      req.session.errorMessage = 'Incorrect credentials. Please try again'
       return res.redirect('/login');
     });
   });
