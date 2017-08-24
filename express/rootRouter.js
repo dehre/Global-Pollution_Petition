@@ -14,19 +14,19 @@ router.route('/register')
   .all(csrfProtection)
   .get(function(req,res){
     res.render('register',{
-      csrfToken: req.csrfToken()
+      csrfToken: req.csrfToken(),
+      showError: req.session.errorMessage
     });
+    req.session.errorMessage = null;
   })
   .post(function(req,res){
     const {firstName,lastName,email, password} = req.body;
     if(!(firstName && lastName && email && password)){
-      //if not all fields were filled, just render the 'register' template again with an error message, then exit the function
-      return res.render('register',{
-        showError: true,
-        csrfToken: req.csrfToken()
-      });
+      //if not all <input> filled, just render the 'register' template again with error message, then exit the function
+      req.session.errorMessage = 'All fields are required!'
+      return res.redirect('/register');
     }
-    //if all <input> fields filled,save new user to database
+    //save new user to database
     dbMethods.createUser(firstName,lastName,email,password)
     .then(function(result){
       //grab 'id','firstName','lastName' of new registered user, and set them as cookie on user's browser
