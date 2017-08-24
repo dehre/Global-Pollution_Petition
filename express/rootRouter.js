@@ -59,6 +59,8 @@ router.route('/login')
     req.session.punishTime = null;
   })
   .post(function(req,res){
+    //global reference to 'request' object
+    const request = req;
     const {email, password} = req.body;
     if(!(email && password)){
       req.session.errorMessage = 'All fields are required when logging in'
@@ -84,19 +86,20 @@ router.route('/login')
         const wrongAttempt = parseInt(wrongAttemptStr) || 1;
         if(wrongAttempt>=3){
           //if user tries bad login more than 3 times, give him punish time of 90sec, 180sec, 360 sec and so on
-          redisCache.get('punishTime')
+          return redisCache.get('punishTime')
           .then(function(timeStr){
             const time = parseInt(timeStr) || 10;
             req.session.punishTime = `You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`;
-            console.log(`You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`);
+            // console.log(`You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`);
             return redisCache.setex('punishTime',time,JSON.stringify(time*2));
           })
         }
         return redisCache.setex('wrongAttempt',15,JSON.stringify(wrongAttempt+1))
       })
-
-      req.session.errorMessage = 'Incorrect credentials. Please try again'
-      return res.redirect('/login');
+      .then(function(){
+        req.session.errorMessage = 'Incorrect credentials. Please try again'
+        return res.redirect('/login');
+      });
     });
   });
 
