@@ -84,8 +84,10 @@ router.get('/signed',function(req,res){
     //pass the signature I got back to 'signed' template
     res.render('signed',{
       first: req.session.user.first,
-      signature:signature
+      signature:signature,
+      showMessage: req.session.successMessage
     });
+    req.session.successMessage = null;
   })
   .catch(function(err){
     console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
