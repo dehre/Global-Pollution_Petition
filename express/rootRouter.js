@@ -79,35 +79,39 @@ router.route('/login')
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-
       //take count of bad logins
       redisCache.get('wrongAttempt')
       .then(function(wrongAttemptStr){
         const wrongAttempt = parseInt(wrongAttemptStr) || 1;
-        return redisCache.setex('wrongAttempt',15,JSON.stringify(wrongAttempt+1))
-        .then(function(){return wrongAttempt})
+        return wrongAttempt
       })
       .then(function(wrongAttempt){
         if(wrongAttempt>=3){
           //if user tries bad login more than 3 times, give him punish time of 90sec, 180sec, 360 sec and so on
           return redisCache.get('punishTime')
           .then(function(timeStr){
-            const time = parseInt(timeStr) || 10;
-            console.log('time is',time);
+            return parseInt(timeStr) || 10;
+          })
+          .then(function(time){
             req.session.punishTime = `You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`;
-            // console.log(`You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`);
             return redisCache.setex('punishTime',time,JSON.stringify(time*2))
+            .then(function(){
+              return {wrongAttempt,time}
+            })
           })
         }
-        return;
+        //return a default time if no onw provided
+        return {wrongAttempt:wrongAttempt,time:10};
+      })
+      .then(function(obj){
+        return redisCache.setex('wrongAttempt',obj.time,JSON.stringify(obj.wrongAttempt+1))
       })
       .then(function(){
         req.session.errorMessage = 'Incorrect credentials. Please try again'
         return res.redirect('/login');
       });
-    });
+    }); //end 'catch' block
   });
-
 
 router.get('/logout',function(req,res){
   req.session = null;
