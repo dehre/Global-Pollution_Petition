@@ -66,6 +66,7 @@ router.route('/edit')
       //update cookies
       req.session.user.first = changedUser.first;
       req.session.user.last = changedUser.last;
+      req.session.successMessage = "Profile updated!";
       res.redirect('/petition');
     })
     .catch(function(err){
@@ -95,6 +96,7 @@ router.route('/edit/password')
     }
     dbMethods.changePassword(user_id,oldPsw,newPsw)
     .then(function(pass){
+      req.session.successMessage = "Password updated!";
       res.redirect('/petition');
     })
     .catch(function(err){

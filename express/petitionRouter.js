@@ -26,8 +26,10 @@ router.route('/')
         last: last,
         signersNumber: signers.length,
         goal: goal,
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        showMessage: req.session.successMessage
       });
+      req.session.successMessage = null;
     })
     .catch(function(err){
       console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);

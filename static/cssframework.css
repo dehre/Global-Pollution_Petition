@@ -153,6 +153,9 @@ li {
 .text-capitalize {
   text-transform: capitalize;
 }
+.text-success {
+  color: green;
+}
 .text-error {
   color: red;
 }
