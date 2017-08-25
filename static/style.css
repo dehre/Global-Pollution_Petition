@@ -3,13 +3,13 @@ body {
 }
 /**/
 .navbar-background {
-  height: 8rem;
+  height: 7rem;
   background-color: rgba(0,0,0,.7);
 }
 .navbar {
   display: flex;
   align-items: center;
-  height: 8rem;
+  height: 7rem;
 }
 .navbar-item {
   padding: 1em;
@@ -46,11 +46,11 @@ body {
 /**/
 .btn {
   display: inline-block;
-  padding: .5em 1em;
+  padding: .6em 1.2em;
   border: none;
   border-radius: 15px 50px;
   letter-spacing: 2px;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-family: monospace;
   font-weight: bold;
   cursor: pointer;
@@ -131,7 +131,7 @@ body {
     font-size: 25px;
   }
   .navbar-background,.navbar {
-    height: 5rem;
+    height: 4.5rem;
   }
 }
 @media screen and (min-width: 1200px){
@@ -149,6 +149,6 @@ body {
     padding: .4em .8em;
     border-radius: 15px 50px;
     letter-spacing: 2px;
-    font-size: 2rem;
+    font-size: 1.7rem;
   }
 }
