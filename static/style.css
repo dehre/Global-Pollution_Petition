@@ -59,6 +59,10 @@ body {
   border: 3px solid #020181;
   color: #020181;
 }
+.btn-red {
+  background-color: #CB2028;
+  color: white;
+}
 .btn-green {
   background-color: #4CAF50;
   color: white;
@@ -82,7 +86,6 @@ body {
 .signed-petition-sign {
   width: 55%;
 }
-
 .signers-list {
   display: flex;
   flex-wrap: wrap;
