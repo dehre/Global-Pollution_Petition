@@ -49,6 +49,12 @@ $(document).ready(function(){
       mouseOnCanvas = false;
       grabCanvasImage();
     });
+
+    //clear canvas when clicking 'Clear' button
+    $('button[name="clearSignature"]').on('click',function(){
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      $canvasInput.val('');
+    });
   } //end 'if(canvas)'
 
 
