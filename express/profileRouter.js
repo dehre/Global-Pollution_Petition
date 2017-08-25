@@ -94,7 +94,7 @@ router.route('/edit/password')
     })
     .catch(function(err){
       req.session.errorMessage = "Your old password wasn't right";
-      return res.redirect('/profile/edit');
+      return res.redirect('/profile/edit/password');
     });
   });
 

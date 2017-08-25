@@ -29,9 +29,9 @@ router.route('/register')
     //save new user to database
     dbMethods.createUser(firstName,lastName,email,password)
     .then(function(result){
-      //grab 'id','firstName','lastName' of new registered user, and set them as cookie on user's browser
+      //set 'id','firstName','lastName' of user as cookie
       req.session.user = result;
-      //set petition goal number as cookie (if app grows, allow user to select which petition is gonna see)
+      //set petition goal number as cookie
       return dbMethods.getPetitionGoal()
     })
     .then(function(goal){
@@ -74,9 +74,9 @@ router.route('/login')
       return dbMethods.getUser(email,password)
     })
     .then(function(result){
-      //set 'id','firstName','lastName' of logged in user as cookies on user's browser
+      //set 'id','firstName','lastName' of user as cookie
       req.session.user = result;
-      //set petition goal number as cookie (if app grows, allow user to select which petition is gonna see)
+      //set petition goal number as cookie
       return dbMethods.getPetitionGoal()
     })
     .then(function(goal){
@@ -91,6 +91,7 @@ router.route('/login')
       });
     })
   });
+
 
 router.get('/logout',function(req,res){
   req.session = null;
