@@ -1,7 +1,10 @@
 //set up Redis database as cache
 const redis = require('redis');
+//grab url for working with Redis
+let redisUrl;
+process.env.REDIS_URL ? redisUrl = process.env.REDIS_URL : redisUrl = 'localhost';
 const client = redis.createClient({
-  host: 'localhost',
+  host: redisUrl,
   port: 6379
 });
 client.on('error',function(err){
