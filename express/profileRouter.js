@@ -24,10 +24,7 @@ router.route('/')
       res.redirect('/petition');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: `Error happened adding user's profile into database`
-      });
+      res.render('error',{errorMessage: `Error happened adding user's profile into database`});
     });
   });
 
@@ -47,10 +44,7 @@ router.route('/edit')
       req.session.errorMessage = null;
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: `Error happened retrieving your data from database`
-      });
+      res.render('error',{errorMessage: `Error happened retrieving your data from database`});
     });
   })
   .post(function(req,res){
@@ -70,7 +64,6 @@ router.route('/edit')
       res.redirect('/petition');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       req.session.errorMessage = 'Sorry something went wrong. Please try again';
       return res.redirect('/profile/edit');
     });
@@ -100,7 +93,6 @@ router.route('/edit/password')
       res.redirect('/petition');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       req.session.errorMessage = "Your old password wasn't right";
       return res.redirect('/profile/edit');
     });

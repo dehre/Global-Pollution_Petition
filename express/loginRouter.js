@@ -39,7 +39,6 @@ router.route('/register')
       res.redirect('/profile');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       req.session.errorMessage = 'A user with this email already exists'
       return res.redirect('/register');
     });
@@ -82,7 +81,6 @@ router.route('/login')
       res.redirect('/petition');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
       cacheSecurityForm(req,res)
       .then(function(){
         req.session.errorMessage = 'Incorrect credentials. Please try again'

@@ -34,10 +34,7 @@ router.route('/')
       req.session.successMessage = null;
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: 'Error happened retrieving data from database'
-      });
+      res.render('error',{errorMessage: 'Error happened retrieving data from database'});
     });
   })
   .post(function(req,res){
@@ -54,10 +51,7 @@ router.route('/')
       res.redirect('/petition/signed');
     })
     .catch(function(err){
-      console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-      res.render('error',{
-        errorMessage: 'Error happened saving your signature into database'
-      });
+      res.render('error',{errorMessage: 'Error happened saving your signature into database'});
     });
   });
 
@@ -75,10 +69,7 @@ router.get('/signed',function(req,res){
     req.session.successMessage = null;
   })
   .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: 'Error happened retrieving your signature from database'
-    });
+    res.render('error',{errorMessage: 'Error happened retrieving your signature from database'});
   })
 });
 
@@ -98,10 +89,7 @@ router.get('/signers/:city?',function(req,res){
     });
   })
   .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: 'Error happened retrieving data from database'
-    });
+    res.render('error',{errorMessage: 'Error happened retrieving data from database'});
   });
 });
 
@@ -113,10 +101,7 @@ router.get('/signed/delete',function(req,res){
     res.redirect('/petition');
   })
   .catch(function(err){
-    console.log(`Error inside ${req.method}'${req.url}'--> ${err}`);
-    res.render('error',{
-      errorMessage: `Error deleting your signature`
-    });
+    res.render('error',{errorMessage: `Error deleting your signature`});
   });
 });
 
