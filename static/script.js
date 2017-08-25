@@ -2,10 +2,9 @@ $(document).ready(function(){
 
   // //CANVAS
   //check if canvas in current webpage
-  const canvas = document.getElementById('signature-canvas');
-  if(canvas){
+  if(document.getElementById('signature-canvas')){
     //take other DOM references
-    const context = canvas.getContext('2d');
+    const context = document.getElementById('signature-canvas').getContext('2d');
     const $canvas = $('#signature-canvas');
     const $canvasInput = $('input[name="signature"]');
     //helper variables for drawing on <canvas>
@@ -54,9 +53,8 @@ $(document).ready(function(){
 
   // //PROGRESS-BAR
   //check if progress-bar in current webpage
-  const bar = document.getElementById('progress-bar');
-  if(bar){
-    const $bar = $(bar);
+  if(document.getElementById('progress-bar')){
+    const $bar = $('#progress-bar');
     //grab goal number for actual petition and number of currently signed users
     const signers = Number($('#petition-signers').text());
     const goal = Number($('#petition-goal').text());
@@ -80,6 +78,19 @@ $(document).ready(function(){
 
   // //PUNISH MESSAGE
   //delete punish message after indicated period of time
+  if(document.getElementById('punish-time')){
+    const $secondsDisplayed = $('#punish-time');
+    let count = parseInt($secondsDisplayed.text());
+    let counter = setInterval(timer,1000);
+    function timer(){
+      count-=1;
+      if(count<=0){
+        $secondsDisplayed.parent().remove();
+        return;
+      }
+      $secondsDisplayed.html(count);
+    }
+  }
 
 
 }); //end $(document).ready()
