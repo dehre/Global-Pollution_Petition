@@ -21,9 +21,10 @@ module.exports.middlewares = function(app){
   //store session data into Redis
   app.use(session({
     store: new Store({
-      ttl: 3600,
-      host: redisUrl,
-      port: 6379
+      url: process.env.REDIS_URL
+      // ttl: 3600,
+      // host: redisUrl,
+      // port: 6379
     }),
     resave: false,
     saveUninitialized: true,
