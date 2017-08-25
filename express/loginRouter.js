@@ -69,7 +69,8 @@ router.route('/login')
       const {email, password} = req.body;
       if(!(email && password)){
         req.session.errorMessage = 'All fields are required when logging in'
-        return res.redirect('/login');
+        //throw an error and start counting failed times
+        throw 'No credentials provided';
       }
       return dbMethods.getUser(email,password)
     })
