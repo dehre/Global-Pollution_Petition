@@ -16,31 +16,19 @@ router.route('/')
   .all(csrfProtection)
   .get(isSigned,function(req,res){
     const {first,last} = req.session.user;
-    //grab goal to populate progress-bar
-    const goal = req.session.goal;
-    //retrieve number of signed people
-    dbMethods.getSigners()
-    .then(function(signers){
-      res.render('petition',{
-        first: first,
-        last: last,
-        signersNumber: signers.length,
-        goal: goal,
-        csrfToken: req.csrfToken(),
-        showError: req.session.errorMessage,
-        showMessage: req.session.successMessage
-      });
-      req.session.errorMessage = null;
-      req.session.successMessage = null;
-    })
-    .catch(function(err){
-      res.render('error',{errorMessage: 'Error happened retrieving data from database'});
+    res.render('petition',{
+      first: first,
+      last: last,
+      csrfToken: req.csrfToken(),
+      showError: req.session.errorMessage,
+      showMessage: req.session.successMessage
     });
+    req.session.errorMessage = null;
+    req.session.successMessage = null;
   })
   .post(function(req,res){
     const {signature} = req.body;
-    const {user_id,first,last} = req.session.user;
-    const goal = req.session.goal;
+    const {user_id} = req.session.user;
     if(!signature){
       req.session.errorMessage = 'Signature was not filled';
       return res.redirect('/petition');
