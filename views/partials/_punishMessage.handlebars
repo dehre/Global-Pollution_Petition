@@ -1,5 +1,5 @@
-{{#if showPunishTime}}
+{{#if punishTime}}
   <div class="text-error text-center font-16 mar-bot-xs">
-    <h3>{{showPunishTime}}</h3>
+    <h3>You failed {{punishFailures}} times. Please wait <span id="punishTime">{{punishTime}}</span> seconds before trying again</h3>
   </div>
 {{/if}}

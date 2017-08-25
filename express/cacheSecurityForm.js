@@ -16,7 +16,8 @@ module.exports = function(req,res){
         return parseInt(timeStr) || 9;
       })
       .then(function(time){
-        req.session.punishTime = `You failed ${wrongAttempt} times. Please wait ${time} seconds before trying again`;
+        req.session.punishFailures = wrongAttempt;
+        req.session.punishTime = time;
         return redisCache.setex('punishTime',time,JSON.stringify(time*2))
         .then(function(){
           return {wrongAttempt,time}

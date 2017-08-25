@@ -8,12 +8,10 @@ $(document).ready(function(){
     const context = canvas.getContext('2d');
     const $canvas = $('#signature-canvas');
     const $canvasInput = $('input[name="signature"]');
-
     //helper variables for drawing on <canvas>
     let emptyCanvas = true;
     let mouseOnCanvas = false;
     let lastX, lastY;
-
     //draw line if mouse is down, otherwise just save current mouse position
     function draw(x, y, isDown){
       if(isDown){
@@ -25,7 +23,6 @@ $(document).ready(function(){
       }
       lastX = x; lastY = y;
     }
-
     //translate signature into 'base-64' text and  set it as value of hidden <input name="signature">
     function grabCanvasImage(){
       if(!emptyCanvas){
@@ -80,5 +77,9 @@ $(document).ready(function(){
     }
     move();
   }
+
+  // //PUNISH MESSAGE
+  //delete punish message after indicated period of time
+
 
 }); //end $(document).ready()

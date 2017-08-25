@@ -51,18 +51,21 @@ router.route('/login')
     res.render('login',{
       csrfToken: req.csrfToken(),
       showError: req.session.errorMessage,
-      showPunishTime: req.session.punishTime
+      punishFailures: req.session.punishFailures,
+      punishTime: req.session.punishTime
     });
     req.session.errorMessage = null;
     req.session.punishTime = null;
   })
   .post(function(req,res){
+    //check if user needs to wait punish time for bad logins
     redisCache.get('punishTime')
     .then(function(time){
       if(time){throw 'Need to wait punish time before trying again'}
       return;
     })
     .then(function(){
+      //search for user if all <input> fields filled
       const {email, password} = req.body;
       if(!(email && password)){
         req.session.errorMessage = 'All fields are required when logging in'
