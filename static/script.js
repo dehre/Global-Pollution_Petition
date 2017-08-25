@@ -4,7 +4,8 @@ $(document).ready(function(){
   //check if canvas in current webpage
   if(document.getElementById('signature-canvas')){
     //take other DOM references
-    const context = document.getElementById('signature-canvas').getContext('2d');
+    const canvas = document.getElementById('signature-canvas');
+    const context = canvas.getContext('2d');
     const $canvas = $('#signature-canvas');
     const $canvasInput = $('input[name="signature"]');
     //helper variables for drawing on <canvas>
