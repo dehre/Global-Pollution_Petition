@@ -4,9 +4,9 @@ const dbMethods = require('../database');
 //store session into Redis
 const session = require('express-session');
 const Store = require('connect-redis')(session);
-//grab url for working with Redis
-let redisUrl;
-process.env.REDIS_URL ? redisUrl = process.env.REDIS_URL : redisUrl = 'localhost';
+//grab url configurations for working with Redis from both localhost and Heroku
+let redisObj;
+process.env.REDIS_URL ? redisObj = {store:process.env.REDIS_URL} : redisObj = {ttl:3600,host:'localhost',port:6379};
 //create secret for hashing cookies --> so cannot be hacked on client side
 let sessionSecret;
 process.env.SESSION_SECRET ? sessionSecret = process.env.SESSION_SECRET : sessionSecret = 'secret';
@@ -20,12 +20,7 @@ module.exports.middlewares = function(app){
 
   //store session data into Redis
   app.use(session({
-    store: new Store({
-      url: process.env.REDIS_URL
-      // ttl: 3600,
-      // host: redisUrl,
-      // port: 6379
-    }),
+    store: new Store(redisObj),
     resave: false,
     saveUninitialized: true,
     secret: sessionSecret

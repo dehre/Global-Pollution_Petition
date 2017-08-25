@@ -1,9 +1,7 @@
 //set up Redis database as cache
 const redis = require('redis');
-//grab url for working with Redis
-let redisUrl;
-process.env.REDIS_URL ? redisUrl = process.env.REDIS_URL : redisUrl = 'localhost';
-const client = redis.createClient(process.env.REDIS_URL || {host: redisUrl,port: 6379});
+// setup Redis for working both on localhost and Heroku
+const client = redis.createClient(process.env.REDIS_URL || {host: 'localhost',port: 6379});
 client.on('error',function(err){
   console.log('Redis error:',err);
 });
