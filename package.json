@@ -22,12 +22,11 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
-    "connect-redis": "^3.1.0",
-    "cookie-session": "^2.0.0-beta.2",
+    "connect-redis": "^3.3.0",
     "csurf": "^1.9.0",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
-    "express-session": "^1.14.1",
+    "express-session": "^1.15.5",
     "redis": "^2.8.0",
     "spiced-pg": "github:spicedacademy/spiced-pg"
   }

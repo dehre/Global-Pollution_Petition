@@ -1,6 +1,9 @@
 const express = require('express');
 //methods for working with database
 const dbMethods = require('../database');
+//store session into Redis
+const session = require('express-session');
+const Store = require('connect-redis')(session);
 //create secret for hashing cookies --> so cannot be hacked on client side
 let sessionSecret;
 process.env.SESSION_SECRET ? sessionSecret = process.env.SESSION_SECRET : sessionSecret = 'secret';
@@ -11,11 +14,17 @@ module.exports.middlewares = function(app){
   app.use(require('body-parser').urlencoded({
       extended: false
   }));
-  //use 'cookie-session' to provide data integrity for cookies
-  app.use(require('cookie-session')({
-    secret: 'sessionSecret',
-    //make session lasting 2 weeks
-    maxAge: 1000*60*60*24*14
+
+  //store session data into Redis
+  app.use(session({
+    store: new Store({
+      ttl: 3600,
+      host: 'localhost',
+      port: 6379
+    }),
+    resave: false,
+    saveUninitialized: true,
+    secret: sessionSecret
   }));
 
   //redirect non-registered users to GET'/register' if they're accessing private pages; also redirect registered users to GET'/petition' if they're trying to access registration-login pages
