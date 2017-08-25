@@ -56,8 +56,8 @@ $(document).ready(function(){
   if(document.getElementById('progress-bar')){
     const $bar = $('#progress-bar');
     //grab goal number for actual petition and number of currently signed users
-    const signers = Number($('#petition-signers').text());
-    const goal = Number($('#petition-goal').text());
+    const signers = parseInt($('#petition-signers').text());
+    const goal = parseInt($('#petition-goal').text());
     let completed = Math.round(signers/goal*100);
     if(completed>=100){completed=100}
     function move() {
@@ -83,7 +83,7 @@ $(document).ready(function(){
     let count = parseInt($secondsDisplayed.text());
     let counter = setInterval(timer,1000);
     function timer(){
-      count-=1;
+      count--;
       if(count<=0){
         $secondsDisplayed.parent().remove();
         return;
