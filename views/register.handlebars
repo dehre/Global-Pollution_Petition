@@ -9,12 +9,12 @@
   <!-- hidden input for csrf token -->
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
   <div class="mar-vert-sm">
-    <h4 class="mar-xs">First Name (required)</h4>
-    <input type="text" name="firstName" placeholder="John">
+    <h4 class="mar-xs">First Name (3 to 10 characters required)</h4>
+    <input type="text" pattern=".{3,10}" name="firstName" placeholder="John">
   </div>
   <div class="mar-vert-sm">
-    <h4 class="mar-xs">Last Name (required)</h4>
-    <input type="text" name="lastName" placeholder="Doe">
+    <h4 class="mar-xs">Last Name (3 to 10 characters required)</h4>
+    <input type="text" pattern=".{3,10}" name="lastName" placeholder="Doe">
   </div>
   <div class="mar-vert-sm">
     <h4 class="mar-xs">Email Address (required)</h4>

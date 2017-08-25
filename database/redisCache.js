@@ -1,6 +1,6 @@
 const redis = require('redis');
 
-//set up Redis database as cache
+//set up Redis database as cache (both on development and production mode)
 const client = redis.createClient(process.env.REDIS_URL || {host:'localhost',port: 6379});
 client.on('error',function(err){
   console.log('Redis error:',err);
