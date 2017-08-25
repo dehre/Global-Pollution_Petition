@@ -95,7 +95,7 @@ router.route('/login')
 
 
 router.get('/logout',function(req,res){
-  req.session = null;
+  req.session.destroy();
   res.redirect('/register');
 });
 
