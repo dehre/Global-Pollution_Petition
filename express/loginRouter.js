@@ -5,7 +5,7 @@ const {csrfProtection} = require('./middlewares');
 //methods for working with database
 const dbMethods = require('../database');
 const redisCache = require('../database/redisCache');
-const cacheSecurityForm = require('./cacheSecurityForm');
+const cacheProtection = require('./cacheProtection');
 
 //  // //  // //  // //  // //  // //  //
 // ALL PATHS HERE ARE APPENDED TO '/' //
@@ -84,7 +84,8 @@ router.route('/login')
       res.redirect('/petition');
     })
     .catch(function(err){
-      cacheSecurityForm(req,res)
+      //protect login <form> from hack attacks
+      cacheProtection(req,res)
       .then(function(){
         req.session.errorMessage = 'Incorrect credentials. Please try again'
         return res.redirect('/login');

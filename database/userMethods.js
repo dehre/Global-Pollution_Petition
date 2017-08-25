@@ -1,4 +1,4 @@
-const db = require('./databaseReference');
+const db = require('./db');
 //import useful functions for hashing passwords
 const {hashPassword,checkPassword} = require('./hashing');
 const redisCache = require('./redisCache');

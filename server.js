@@ -33,10 +33,7 @@ app.get('*',function(req,res){
 
 //handle 'Express' errors
 app.use(function (err, req, res, next) {
-  console.error(err.stack)
-  res.status(500).render('error',{
-    errorMessage: 'Server error, something broke!'
-  })
+  res.status(500).render('error',{errorMessage: 'Server error, something broke!'})
 })
 
 //start listening on port 8080 (on dev environment)

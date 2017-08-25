@@ -1,4 +1,4 @@
-//use Redis cache for preventing hack attacks
+//use Redis cache for preventing hack attacks --> block users from making too many wrong <form> submissions
 const redisCache = require('../database/redisCache');
 
 module.exports = function(req,res){

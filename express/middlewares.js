@@ -18,7 +18,7 @@ module.exports.middlewares = function(app){
     maxAge: 1000*60*60*24*14
   }));
 
-  //redirect not registered users to GET'/register' if they're accessing private pages; also redirect registered users to GET'/petition' if they're trying to access registration-login pages
+  //redirect non-registered users to GET'/register' if they're accessing private pages; also redirect registered users to GET'/petition' if they're trying to access registration-login pages
   app.use(function(req,res,next){
     const publicUrls = ['/register','/login'];
     if(publicUrls.indexOf(req.url)===-1 && !req.session.user){
