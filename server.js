@@ -1,6 +1,6 @@
 const express = require('express');
 const hb = require('express-handlebars');
-const {middlewares:{middlewares},rootRouter,profileRouter,petitionRouter} = require('./express');
+const {middlewares:{middlewares},loginRouter,profileRouter,petitionRouter} = require('./express');
 
 //create express application
 const app = express();
@@ -16,9 +16,15 @@ app.use('/static',express.static(__dirname + '/static'));
 middlewares(app);
 
 // set up routes
-app.use('/',rootRouter);
+app.use('/',loginRouter);
 app.use('/profile',profileRouter);
 app.use('/petition',petitionRouter);
+
+
+//handle browser's request for 'favicon.ico'
+app.get('/favicon.ico', function(req, res){
+  res.redirect('/static/images/favicon.ico');
+});
 
 //catch all request for unexisting routes
 app.get('*',function(req,res){

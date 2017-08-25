@@ -1,6 +1,6 @@
 module.exports = {
   middlewares: require('./middlewares'),
-  rootRouter: require('./rootRouter'),
+  loginRouter: require('./loginRouter'),
   profileRouter: require('./profileRouter'),
   petitionRouter: require('./petitionRouter')
 }

@@ -96,9 +96,5 @@ router.get('/logout',function(req,res){
   res.redirect('/register');
 });
 
-//handle browser's request for 'favicon.ico'
-router.get('/favicon.ico', function(req, res){
-  res.redirect('/static/images/favicon.ico');
-});
 
 module.exports = router;
