@@ -2,32 +2,27 @@
 const redisCache = require('../database/redisCache');
 
 module.exports = function(req,res){
-  //take count of bad logins
-  return redisCache.get('wrongAttempt')
+  //get bad login email
+  const {email} = req.body;
+  //get back array of email that attempt bad login
+  return redisCache.get(email)
   .then(function(wrongAttemptStr){
-    const wrongAttempt = parseInt(wrongAttemptStr) || 1;
-    return wrongAttempt
+    //if that mail doesn't exist there, add it with value of 1
+    if(!wrongAttemptStr){
+      return redisCache.setex(email,20,1)
+      .then(function(){return 1})
+    }
+    return wrongAttemptStr;
   })
-  .then(function(wrongAttempt){
+  .then(function(wrongAttemptStr){
+    const wrongAttempt = parseInt(wrongAttemptStr);
     if(wrongAttempt>=3){
       //if user tries bad login more than 3 times, give him punish time of 90sec, 180sec, 360 sec and so on
-      return redisCache.get('punishTime')
-      .then(function(timeStr){
-        return parseInt(timeStr) || 9;
-      })
-      .then(function(time){
-        req.session.punishFailures = wrongAttempt;
-        req.session.punishTime = time;
-        return redisCache.setex('punishTime',time,JSON.stringify(time*2))
-        .then(function(){
-          return {wrongAttempt,time}
-        })
-      })
+      const punishTime = 9*(2**(wrongAttempt-3));
+      req.session.punishFailures = wrongAttempt;
+      req.session.punishTime =punishTime;
+      return redisCache.setex(email,punishTime,JSON.stringify(wrongAttempt+1));
     }
-    //return a default time of 10 seconds if no one provided
-    return {wrongAttempt:wrongAttempt,time:10};
-  })
-  .then(function(obj){
-    return redisCache.setex('wrongAttempt',obj.time,JSON.stringify(obj.wrongAttempt+1))
+    return redisCache.setex(email,20,JSON.stringify(wrongAttempt+1));
   })
 }
