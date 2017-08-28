@@ -58,22 +58,14 @@ router.route('/login')
     req.session.punishTime = null;
   })
   .post(function(req,res){
-    //check if user needs to wait punish time for bad logins
-    redisCache.get('punishTime')
-    .then(function(time){
-      if(time){throw 'Need to wait punish time before trying again'}
-      return;
-    })
-    .then(function(){
-      //search for user if all <input> fields filled
-      const {email, password} = req.body;
-      if(!(email && password)){
-        req.session.errorMessage = 'All fields are required when logging in'
-        //throw an error and start counting failed times
-        throw 'No credentials provided';
-      }
-      return dbMethods.getUser(email,password)
-    })
+    //search for user if all <input> fields filled
+    const {email, password} = req.body;
+    if(!(email && password)){
+      req.session.errorMessage = 'All fields are required when logging in'
+      //throw an error and start counting failed times
+      return res.redirect('/login');
+    }
+    dbMethods.getUser(email,password)
     .then(function(result){
       //set 'id','firstName','lastName' of user as cookie
       req.session.user = result;
