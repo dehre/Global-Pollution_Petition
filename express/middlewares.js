@@ -58,6 +58,7 @@ module.exports.isSigned = function(req,res,next){
     return res.redirect('/petition/signed');
   })
   .catch(function(err){
+    console.log(`Error 'isSigned()' middleware --> ${err}`);
     //if signature is not found, promise is rejected, so just catch the error and move user along
     next();
   })

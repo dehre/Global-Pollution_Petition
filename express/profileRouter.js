@@ -24,6 +24,7 @@ router.route('/')
       res.redirect('/petition');
     })
     .catch(function(err){
+      console.log(`Error POST '/profile' --> ${err}`);
       res.render('error',{errorMessage: `Error happened adding user's profile into database`});
     });
   });
@@ -44,6 +45,7 @@ router.route('/edit')
       req.session.errorMessage = null;
     })
     .catch(function(err){
+      console.log(`Error GET '/profile/edit' --> ${err}`);
       res.render('error',{errorMessage: `Error happened retrieving your data from database`});
     });
   })
@@ -64,6 +66,7 @@ router.route('/edit')
       res.redirect('/petition');
     })
     .catch(function(err){
+      console.log(`Error POST '/profile/edit' --> ${err}`);
       req.session.errorMessage = 'Sorry something went wrong. Please try again';
       return res.redirect('/profile/edit');
     });
@@ -93,6 +96,7 @@ router.route('/edit/password')
       res.redirect('/petition');
     })
     .catch(function(err){
+      console.log(`Error POST '/profile/edit/password' --> ${err}`);
       req.session.errorMessage = "Your old password wasn't right";
       return res.redirect('/profile/edit/password');
     });

@@ -39,6 +39,7 @@ router.route('/register')
       res.redirect('/profile');
     })
     .catch(function(err){
+      console.log(`Error POST '/register' --> ${err}`);
       req.session.errorMessage = 'A user with this email already exists'
       return res.redirect('/register');
     });
@@ -80,6 +81,7 @@ router.route('/login')
       //protect login <form> from hack attacks
       cacheProtection(req,res)
       .then(function(){
+        console.log(`Error POST '/login' --> ${err}`);
         req.session.errorMessage = 'Incorrect credentials. Please try again'
         return res.redirect('/login');
       });
